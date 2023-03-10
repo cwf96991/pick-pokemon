@@ -1,5 +1,5 @@
 import SearchBox from "./searchBox";
-import { useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import useSearchPokemon from "../../../hook/useSearchPokemon";
 import Pokemon from "./pokemon";
 import useSelectPokemon from "../../../hook/useSelectPokemon";
@@ -7,7 +7,7 @@ import Chip from "../../chip";
 import Paginate from "../../paginate";
 import Tag from "../../tag";
 import { pokemonBallImg } from "../../../constant/index";
-import { ResponseAPI } from "../../../interface/pokemon";
+import { IFilterParams, ResponseAPI } from "../../../interface/pokemon";
 
 const PokemonForm = (props: { setPage: Function }) => {
   const { setPage } = props;
@@ -34,7 +34,7 @@ const PokemonForm = (props: { setPage: Function }) => {
       type: "pokemon",
       query: pokemon.name,
     };
-  }) as any[];
+  }) as IFilterParams[];
   const filterParamsWithoutSize = Object.values(filterParams).filter(
     (params) => params?.size === undefined
   ).length;
@@ -51,8 +51,8 @@ const PokemonForm = (props: { setPage: Function }) => {
     togglePokemon,
     clearSelectedPokemon,
   } = useSelectPokemon();
-  const turnstoneRef = useRef<any>();
-  const clearAllRowRef = useRef<any>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const turnstoneRef = useRef<any>(null);
   const canProceed = (selectedPokemonList?.length ?? 0) > 0;
   const handleQuery = (query: string) => {
     turnstoneRef.current?.query(query);
@@ -123,6 +123,7 @@ const PokemonForm = (props: { setPage: Function }) => {
           </div>
         ) : (
           <div
+          
             className={`${
               finalFilterParams.length > 0
                 ? "md:h-[calc(100vh-680px)]"
@@ -133,6 +134,7 @@ const PokemonForm = (props: { setPage: Function }) => {
               pokemons.map((pokemon: string, index) => {
                 return (
                   <Pokemon
+                  id={"pokemon"+index}
                     key={index}
                     pokemon={cachePokemon[pokemon]}
                     isSelected={isSelected}
@@ -185,7 +187,7 @@ const PokemonForm = (props: { setPage: Function }) => {
   };
   const ClearAllAndPokemonNumber = () => {
     return (
-      <div ref={clearAllRowRef} className="flex items-center pt-2">
+      <div  className="flex items-center pt-2">
         {finalFilterParams.length > 0 && (
           <button
             onClick={() => {
@@ -283,7 +285,6 @@ const PokemonForm = (props: { setPage: Function }) => {
     return (
       <div className=" mb-4">
         <Paginate
-          clearAllRowRef={clearAllRowRef}
           items={finalPokemons}
           itemsListView={(items: string[]) => {
             return <PokemonListView pokemons={items} />;

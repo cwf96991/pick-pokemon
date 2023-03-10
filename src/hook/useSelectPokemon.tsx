@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ResponseAPI } from "../interface/pokemon";
 
 const useSelectPokemon = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pokemonMap, setPokemonMap] = useState<{ [id: string]: any }>({});
   const [selectedPokemonList, setSelectedPokemonList] =
     useState<ResponseAPI[]>();

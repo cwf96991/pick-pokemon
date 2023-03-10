@@ -24,3 +24,9 @@ export interface IPokemon {
   name: string;
   url: string;
 }
+
+export interface IFilterParams {
+  type: string;
+  query: string;
+  size?: number;
+}

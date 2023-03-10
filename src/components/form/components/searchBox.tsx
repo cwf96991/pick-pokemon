@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactElement, useRef } from "react";
 import useDrawer from "../../../hook/useDrawer";
 import useGetPokemons from "../../../hook/useGetPokemons";

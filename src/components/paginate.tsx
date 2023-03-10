@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
 const Paginate = (props: {
-  items: any[];
+  items: unknown[];
   itemsListView: Function;
   pageClassName?: string;
   itemsInPage?: number;
-  clearAllRowRef?:any;
 }) => {
-  const { items, itemsListView, itemsInPage, pageClassName ,clearAllRowRef} = props;
+  const { items, itemsListView, itemsInPage, pageClassName } = props;
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = itemsInPage??4
   const endOffset = itemOffset + itemsPerPage;
@@ -16,7 +16,9 @@ const Paginate = (props: {
   const pageCount = Math.ceil(items.length / itemsPerPage);
   const handlePageClick = (event: { selected: number }) => {
     // scroll to clear all row
-    clearAllRowRef.current.scrollIntoView() 
+    document?.getElementById('pokemon0')?.scrollIntoView({
+      behavior: 'smooth'
+    });
     const newOffset = (event.selected * itemsPerPage) % items.length;
     setItemOffset(newOffset);
   };

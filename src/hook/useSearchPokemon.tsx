@@ -1,12 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react';
-import { ResponseAPI } from '../interface/pokemon';
-interface IFilterParams {
-    type: string;
-    query: string;
-    size?: number;
-}
+import { IFilterParams, ResponseAPI } from '../interface/pokemon';
+
 const useSearchPokemon = (search: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [cachePokemon, setCachePokemon] = useState<any>({})
     const [filterParams, setFilterParams] = useState<IFilterParams[]>([])
     const filterParmsRef = useRef<IFilterParams[]>([])

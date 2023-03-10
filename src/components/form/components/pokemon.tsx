@@ -19,8 +19,9 @@ const Pokemon = (props: {
   pokemon: ResponseAPI | null;
   isSelected: (pokemon: ResponseAPI) => boolean;
   togglePokemon: (pokemon: ResponseAPI) => void;
+  id: string;
 }) => {
-  const { pokemon, isSelected, togglePokemon } = props;
+  const { id, pokemon, isSelected, togglePokemon } = props;
 
   if (pokemon && Object.keys(pokemon).length === 0) return <></>;
   const avatar = getAvatarFromPokemon(pokemon as ResponseAPI);
@@ -30,7 +31,7 @@ const Pokemon = (props: {
       {!pokemon ? (
         <span className="no-results">No results</span>
       ) : (
-        <div className="mr-1 mt-4 ">
+        <div id={id} className="mr-1 pt-4 ">
           <div
             onClick={() => {
               togglePokemon(pokemon);
@@ -41,7 +42,7 @@ const Pokemon = (props: {
                 : "border-2 border-gray-500"
             }`}
           >
-            <div className="flex items-center justify-between p-4 mb-2">
+            <div className="flex items-center justify-between p-4 mt-2">
               <img
                 className="w-[36px]"
                 src={avatar}
