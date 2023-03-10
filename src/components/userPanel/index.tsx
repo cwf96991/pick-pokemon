@@ -45,17 +45,19 @@ const UserPanel = (props: {
           open={isOpen}
           onClose={toggleDrawer}
           direction="left"
-          className="!w-4/5 p-4 !bg-gray-100 dark:!bg-gray-800 text-black dark:text-white !flex-col !flex !h-full"
+          className="!w-4/5 p-4 !bg-gray-100 dark:!bg-gray-800 text-black dark:text-white !flex-col !flex  h-screen"
         >
-          <div className="text-2xl font-bold text-center mt-10 mb-[200px]">
+          <div className="text-2xl font-bold text-center mt-10 mb-[150px]">
             User Record
           </div>
+          <div className="h-[calc(100vh-250px)] overflow-y-auto">
           <UserRecordList
             userRecord={userRecord}
             isMobile={isMobile}
             deleteUserRecord={deleteUserRecord}
             recordRef={recordRef}
           />
+          </div>
           <DeleteModal
             onConfirm={() => {
               deleteUserRecord(recordRef.current);

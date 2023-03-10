@@ -15,14 +15,14 @@ const Review = (props: { setPage: Function }) => {
   const { firstName, lastName, phoneNumber, address, clearFormData } =
     useFormData();
   const onSubmit = () => {
-    let userRecord: { [id: string]: any } = {};
+    const userRecord: { [id: string]: any } = {};
     userRecord.firstName = firstName;
     userRecord.lastName = lastName;
     userRecord.phoneNumber = phoneNumber;
     userRecord.address = address;
     userRecord.selectedPokemon = selectedPokemonList;
     if (localStorage.userRecord) {
-      let localUserRecord = JSON.parse(localStorage.userRecord);
+      const localUserRecord = JSON.parse(localStorage.userRecord);
       localUserRecord.push(userRecord);
       localStorage.userRecord = JSON.stringify(localUserRecord);
     } else {
@@ -60,7 +60,7 @@ const Review = (props: { setPage: Function }) => {
             <input
               autoFocus
               value={firstName}
-              className="cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-400 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-red-600 peer"
+              className="cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-red-600 peer"
               placeholder=" "
               disabled={true}
             />
@@ -71,7 +71,7 @@ const Review = (props: { setPage: Function }) => {
           <div className="group relative z-0 w-full mb-6">
             <input
               value={lastName}
-              className="cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-400 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-red-600 peer"
+              className="cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-red-600 peer"
               placeholder=" "
               disabled={true}
             />
@@ -83,7 +83,7 @@ const Review = (props: { setPage: Function }) => {
         <div className="group relative z-0 w-full mb-6">
           <input
             value={address}
-            className="cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-400 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-red-600 peer"
+            className="cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-red-600 peer"
             placeholder=" "
             disabled={true}
           />
@@ -94,7 +94,7 @@ const Review = (props: { setPage: Function }) => {
         <div className="group relative z-0 w-full mb-6">
           <input
             value={phoneNumber}
-            className="cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-400 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-red-600 peer"
+            className="cursor-not-allowed block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-red-600 peer"
             placeholder=" "
             disabled={true}
           />
@@ -117,7 +117,7 @@ const Review = (props: { setPage: Function }) => {
       </div>
       <div className=" flex flex-wrap w-full">
         {selectedPokemonList?.map((pokemon, index) => {
-          let avatar = getAvatarFromPokemon(pokemon);
+          const avatar = getAvatarFromPokemon(pokemon);
           return <Chip key={index} name={pokemon.name} imgUrl={avatar} />;
         })}
       </div>

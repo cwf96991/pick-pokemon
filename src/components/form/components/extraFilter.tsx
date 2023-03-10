@@ -9,7 +9,7 @@ const MobileExtraFilterButton = (props: { toggleDrawer: Function }) => {
         onClick={() => {
           toggleDrawer();
         }}
-        className={`btn mt-1 normal-case cursor-pointer mr-2 flex-1  text-white bg-red-700 hover:bg-red-800  focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center`}
+        className={`btn mt-1 normal-case cursor-pointer mr-2 flex-1 border-0 text-white bg-red-700 hover:bg-red-800  focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center`}
         type="button"
         data-drawer-target="drawer-example"
         data-drawer-show="drawer-example"
@@ -45,7 +45,7 @@ const ExtraFilterWidget = (props: {
     <div className="md:flex hidden my-2">
       {extraFilterList.map((filter, index) => {
         const { data, type, text, isRight } = filter;
-        let selectedCountText =
+        const selectedCountText =
           getSelectedCountByType(type) > 0
             ? `(${getSelectedCountByType(type)})`
             : "";
@@ -91,7 +91,7 @@ const ExtraFilterWidgetMobile = (props: {
     <div className="mt-4">
       {extraFilterList.map((filter, index) => {
         const { data, type, text } = filter;
-        let selectedCountText =
+        const selectedCountText =
           getSelectedCountByType(type) > 0
             ? `(${getSelectedCountByType(type)})`
             : "";
@@ -112,14 +112,14 @@ const ExtraFilterWidgetMobile = (props: {
                   .map((data: any) => data.name)
                   .map((option, index) => {
                     const isSelected = isSelectedFilter(option);
-                    let sizeText =
+                    const sizeText =
                       getSizebyParam(option) > 0
                         ? `(${getSizebyParam(option)})`
                         : "";
                     return (
                       <li className=" flex" key={index}>
                         <div
-                          className=" text-white flex items-center mb-2"
+                          className=" text-black dark:text-white flex items-center mb-2"
                           onClick={() => {
                             toggleFilterParams(type, option);
                           }}

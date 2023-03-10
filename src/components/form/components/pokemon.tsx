@@ -23,7 +23,7 @@ const Pokemon = (props: {
   const { pokemon, isSelected, togglePokemon } = props;
 
   if (pokemon && Object.keys(pokemon).length === 0) return <></>;
-  let avatar = getAvatarFromPokemon(pokemon as ResponseAPI);
+  const avatar = getAvatarFromPokemon(pokemon as ResponseAPI);
 
   return (
     <>

@@ -53,12 +53,12 @@ const SearchBox = (props: {
 
   const listbox = getListBox(pokemons, abilities);
 
-  const Item = (data: { groupName: any; item: IPokemon }) => {
+  const Item = (data: { groupName: string; item: IPokemon }) => {
     const { item } = data;
-    let category = data.groupName;
+    const category = data.groupName;
     const isSelected = isSelectedFilter(item.name);
 
-    let id = getPokemonIdByUrl(item.url);
+    const id = getPokemonIdByUrl(item.url);
     let avatar = pokemonBallImg;
     if (id.length > 0) {
       avatar = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
@@ -94,7 +94,7 @@ const SearchBox = (props: {
     );
   };
   const onSelect = (item: IPokemon) => {
-    let filteredPokemon = pokemons.filter((pokemon: IPokemon) => {
+    const filteredPokemon = pokemons.filter((pokemon: IPokemon) => {
       return pokemon.name === item?.name;
     });
     //check if querying name or ability

@@ -2,8 +2,8 @@ import ArrowUpSvg from "../images/arrow-up";
 const DropDown = (props: {
   text: string;
   isRight?: boolean;
-  options: any[];
-  sizes: any[];
+  options: string[];
+  sizes: string[];
   onClick: Function;
   isSelected: Function;
   selectedCountText: string;

@@ -17,7 +17,7 @@ const useGetPokemons = () => {
         `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`
       );
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setPokemons(results);
     }
@@ -28,7 +28,7 @@ const useGetPokemons = () => {
         `https://pokeapi.co/api/v2/ability?offset=1&limit=400`
       );
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setAbilities(results);
     }
@@ -37,7 +37,7 @@ const useGetPokemons = () => {
     if (colors.length === 0) {
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon-color/`);
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setColors(results);
     }
@@ -46,7 +46,7 @@ const useGetPokemons = () => {
     if (eggGroups.length === 0) {
       const res = await fetch(`https://pokeapi.co/api/v2/egg-group/`);
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setEggGroups(results);
     }
@@ -55,7 +55,7 @@ const useGetPokemons = () => {
     if (types.length === 0) {
       const res = await fetch(`https://pokeapi.co/api/v2/type/`);
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setTypes(results);
     }
@@ -64,7 +64,7 @@ const useGetPokemons = () => {
     if (natures.length === 0) {
       const res = await fetch(`https://pokeapi.co/api/v2/nature/`);
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setNatures(results);
     }
@@ -73,7 +73,7 @@ const useGetPokemons = () => {
     if (growthRates.length === 0) {
       const res = await fetch(`https://pokeapi.co/api/v2/growth-rate/`);
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setGrowthRates(results);
     }
@@ -82,7 +82,7 @@ const useGetPokemons = () => {
     if (habitats.length === 0) {
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon-habitat/`);
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setHabitats(results);
     }
@@ -91,7 +91,7 @@ const useGetPokemons = () => {
     if (shapes.length === 0) {
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon-shape/`);
       const data = await res.json();
-      let results = data.results;
+      const results = data.results;
 
       setShapes(results);
     }

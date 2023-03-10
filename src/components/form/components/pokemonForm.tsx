@@ -35,6 +35,9 @@ const PokemonForm = (props: { setPage: Function }) => {
       query: pokemon.name,
     };
   }) as any[];
+  const filterParamsWithoutSize = Object.values(filterParams).filter(
+    (params) => params?.size === undefined
+  ).length;
   const finalFilterParams = [...nameFilter, ...filterParams];
   const finalPokemons =
     searchPokemons?.length === 0
@@ -49,6 +52,7 @@ const PokemonForm = (props: { setPage: Function }) => {
     clearSelectedPokemon,
   } = useSelectPokemon();
   const turnstoneRef = useRef<any>();
+  const clearAllRowRef = useRef<any>();
   const canProceed = (selectedPokemonList?.length ?? 0) > 0;
   const handleQuery = (query: string) => {
     turnstoneRef.current?.query(query);
@@ -95,11 +99,15 @@ const PokemonForm = (props: { setPage: Function }) => {
       </div>
     );
   };
-  const PokemonListView = (props: { pokemons: any[] }) => {
+  const PokemonListView = (props: { pokemons: string[] }) => {
     const { pokemons } = props;
-    let isLoadingData =
-      (finalFilterParams.length > 0 && finalPokemons.length === 0) ||
-      (filterParams.length !== 0 && finalPokemons.length === 1);
+
+    const isLoadingData =
+      (nameFilter.length > 0 && finalPokemons.length === 0) ||
+      (filterParams.length > 0 && finalPokemons.length === 0) ||
+      (filterParamsWithoutSize > 0 && finalPokemons.length === 0);
+    //Display the loading effect if the filter parameters are present but the final list of Pokémon is not yet available, 
+    //or if the filter parameters have been added but the Pokémon data has not been retrieved yet.
     return (
       <div
         className={`${
@@ -138,6 +146,7 @@ const PokemonForm = (props: { setPage: Function }) => {
     );
   };
   const FilterTag = () => {
+    const isLoadingData = isLoading || filterParamsWithoutSize !== 0;
     return (
       <div className=" flex flex-wrap md:max-h-[50px] md:overflow-y-auto md:max-w-[800px]">
         {finalFilterParams.map(
@@ -160,7 +169,7 @@ const PokemonForm = (props: { setPage: Function }) => {
             );
           }
         )}
-        {isLoading && (
+        {isLoadingData && (
           <div
             data-te-chip-init
             data-te-ripple-init
@@ -176,7 +185,7 @@ const PokemonForm = (props: { setPage: Function }) => {
   };
   const ClearAllAndPokemonNumber = () => {
     return (
-      <div className="flex items-center mt-2">
+      <div ref={clearAllRowRef} className="flex items-center pt-2">
         {finalFilterParams.length > 0 && (
           <button
             onClick={() => {
@@ -218,7 +227,7 @@ const PokemonForm = (props: { setPage: Function }) => {
           {selectedPokemonList?.length !== 0 ? (
             <div className=" flex flex-wrap w-full">
               {selectedPokemonList?.map((pokemon, index) => {
-                let id = pokemon?.id?.toString() as string;
+                const id = pokemon?.id?.toString() as string;
                 let avatar = pokemon?.sprites?.front_default ?? pokemonBallImg;
                 if (id.length > 0) {
                   avatar = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
@@ -274,8 +283,9 @@ const PokemonForm = (props: { setPage: Function }) => {
     return (
       <div className=" mb-4">
         <Paginate
+          clearAllRowRef={clearAllRowRef}
           items={finalPokemons}
-          itemsListView={(items: any) => {
+          itemsListView={(items: string[]) => {
             return <PokemonListView pokemons={items} />;
           }}
           itemsInPage={10}

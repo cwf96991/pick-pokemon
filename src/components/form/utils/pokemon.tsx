@@ -2,7 +2,7 @@ import { pokemonBallImg } from "../../../constant";
 import { ResponseAPI } from "../../../interface/pokemon";
 
 const getAvatarFromPokemon = (pokemon: ResponseAPI) => {
-  let id = pokemon?.id?.toString() as string;
+  const id = pokemon?.id?.toString() as string;
 
   let avatar = pokemon?.sprites?.front_default ?? pokemonBallImg;
   if (id.length > 0) {

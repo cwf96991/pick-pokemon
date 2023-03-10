@@ -36,27 +36,27 @@ const useSearchPokemon = (search: string) => {
     }
     function isSelectedFilter(query: string) {
         //search pokemon by pokemon name in searched pokemon
-        var index2 = findSearchPokemonsByName(query)
+        const index2 = findSearchPokemonsByName(query)
         if (index2 !== -1) {
             return true
         }
         //check query is existing
-        var index = filterParmsRef.current.findIndex(parmaData => {
+        const index = filterParmsRef.current.findIndex(parmaData => {
 
             return parmaData.query === query
         })
         return index !== -1
     }
     function getSizebyParam(query: string) {
-        let filterParams = filterParmsRef.current
-        let index = filterParams?.findIndex(param => param.query === query) as number
+        const filterParams = filterParmsRef.current
+        const index = filterParams?.findIndex(param => param.query === query) as number
         if (index !== -1) {
             return filterParams[index]?.size ?? 0
         }
         return 0
     }
     function getSelectedCountByType(type: string): number {
-        let filterParams = filterParmsRef.current
+        const filterParams = filterParmsRef.current
         return filterParams?.filter(param => param.type === type).length
 
     }
@@ -68,18 +68,20 @@ const useSearchPokemon = (search: string) => {
             const res = await fetch(url);
             if (res.status === 404) return null
             const data = await res.json();
-            let pokemons = data.pokemon || data.pokemon_species;
-            let filterParams = filterParmsRef.current
-            let index = filterParams?.findIndex(param => param.type === type && param.query === query) as number
+            const pokemons = data.pokemon || data.pokemon_species;
+            const filterParams = filterParmsRef.current
+            const index = filterParams?.findIndex(param => param.type === type && param.query === query) as number
+            
             filterParams[index].size = pokemons.length
             filterParmsRef.current = filterParams
+            localStorage.filterParams = JSON.stringify(filterParams)
+
             
-            
-            let nameList = [] as string[];
+            const nameList = [] as string[];
             for (let index = 0; index < pokemons.length; index++) {
                 const pokemon = pokemons[index].pokemon || pokemons[index]
 
-                let pokemonName = pokemon.name
+                const pokemonName = pokemon.name
 
                 if (cachePokemon[pokemon.name]) {
                     //hit the cached item
@@ -96,7 +98,6 @@ const useSearchPokemon = (search: string) => {
 
                 nameList.push(pokemonName)
             }
-
             setFilterParams(filterParams)
             setIsLoading(false)
             setCachePokemon(cachePokemon)
@@ -113,7 +114,7 @@ const useSearchPokemon = (search: string) => {
     async function getFinalListFromFilterParams(filterParams: IFilterParams[]) {
 
         try {
-            let ListOfNameList = [] as string[][]
+            const ListOfNameList = [] as string[][]
 
             //store all the params return name list
             for (let index = 0; index < filterParams.length; index++) {
@@ -121,13 +122,13 @@ const useSearchPokemon = (search: string) => {
                 if (param.type === "pokemon") {
                     searchPokemon(param.query)
                         .then(data => {
-                            var index2 = findSearchPokemonsByName(data?.name as string)
+                            const index2 = findSearchPokemonsByName(data?.name as string)
                             if (index2 === -1) {
                                 searchPokemons?.push(data as ResponseAPI)
-                                let set = new Set([
+                                const set = new Set([
                                     ...(searchPokemons as ResponseAPI[])
                                 ]);
-                                let finalList = [...set]?.filter(n => n)
+                                const finalList = [...set]?.filter(n => n)
                                 localStorage.searchedPokemons = JSON.stringify(finalList)
                                 setSearchPokemons(finalList)
 
@@ -137,7 +138,7 @@ const useSearchPokemon = (search: string) => {
 
                         })
                 } else {
-                    let nameList = await searchPokemonByFilter(param.type, param.query)
+                    const nameList = await searchPokemonByFilter(param.type, param.query)
                     if (nameList) {
                         ListOfNameList.push(nameList)
                     } else {
@@ -147,9 +148,9 @@ const useSearchPokemon = (search: string) => {
                 }
 
             }
-            let finalList = ListOfNameList.reduce((x: string[], y: string[]) => {
+            const finalList = ListOfNameList.reduce((x: string[], y: string[]) => {
                 // return x.filter((z) => y.includes(z))
-                let set = new Set([
+                const set = new Set([
                     ...x,
                     ...y
                 ]);
@@ -169,7 +170,7 @@ const useSearchPokemon = (search: string) => {
     function findSearchPokemonsByName(name: string) {
         
         if (localStorage.searchedPokemons) {
-            let localSearchedPokemons = JSON.parse(localStorage.searchedPokemons ?? "")
+            const localSearchedPokemons = JSON.parse(localStorage.searchedPokemons ?? "")
             return localSearchedPokemons?.findIndex((pokemon: { name: string; }) => pokemon.name === name) as number
             
         } else {
@@ -179,22 +180,22 @@ const useSearchPokemon = (search: string) => {
 
     }
     async function toggleFilterParams(type: string, query: string) {
-        let param = {
+        const param = {
             type,
             query
         }
 
         if (type === "name" || type === "pokemon") {
             // setPokemon({} as ResponseAPI)
-            var index2 = findSearchPokemonsByName(query)
+            const index2 = findSearchPokemonsByName(query)
             if (index2 !== -1) {
                 searchPokemons?.splice(index2, 1)
-                let set = new Set([
+                const set = new Set([
                     ...(searchPokemons as ResponseAPI[])
                 ]);
 
                 if (set.size !== 0) {
-                    let finalList = [...set]?.filter(n => n)
+                    const finalList = [...set]?.filter(n => n)
                     localStorage.searchedPokemons = JSON.stringify(finalList)
                     setSearchPokemons(finalList)
                 } else {
@@ -204,8 +205,8 @@ const useSearchPokemon = (search: string) => {
 
             }
         } else {
-            var index = filterParmsRef.current.findIndex(parmaData => parmaData.type === type && parmaData.query === query)
-            let filterParams = filterParmsRef.current
+            const index = filterParmsRef.current.findIndex(parmaData => parmaData.type === type && parmaData.query === query)
+            const filterParams = filterParmsRef.current
             let isAdd = true
             if (index !== -1) {
                 filterParams.splice(index, 1);
@@ -243,19 +244,19 @@ const useSearchPokemon = (search: string) => {
                 setIsLoading(true)
                 searchPokemon(search, controller.signal)
                     .then(data => {
-                        var index2 = findSearchPokemonsByName(data?.name as string)
+                        const index2 = findSearchPokemonsByName(data?.name as string)
                         if (index2 === -1) {
                             searchPokemons?.push(data as ResponseAPI)
-                            let set = new Set([
+                            const set = new Set([
                                 ...(searchPokemons as ResponseAPI[])
                             ]);
-                            let finalList = [...set]?.filter(n => n)
+                            const finalList = [...set]?.filter(n => n)
                             localStorage.searchedPokemons = JSON.stringify(finalList)
                             setSearchPokemons(finalList)
                         }
                     })
             }
-        } catch (error) { } finally {
+        } finally {
             setIsLoading(false);
         }
 
@@ -264,17 +265,17 @@ const useSearchPokemon = (search: string) => {
     async function loadSearchedPokemons() {
         if (localStorage.searchedPokemons && searchPokemons?.length === 0) {
             setIsLoading(true)
-            let localSearchedPokemons = JSON.parse(localStorage.searchedPokemons ?? "")
+            const localSearchedPokemons = JSON.parse(localStorage.searchedPokemons ?? "")
 
             let finalList = [] as ResponseAPI[]
             for (let index = 0; index < localSearchedPokemons.length; index++) {
                 const pokemon = localSearchedPokemons[index];
-                let query = pokemon.name
-                let data = await searchPokemon(query)
-                var index2 = searchPokemons?.findIndex(pokemon => pokemon.name === query) as number
+                const query = pokemon.name
+                const data = await searchPokemon(query)
+                const index2 = searchPokemons?.findIndex(pokemon => pokemon.name === query) as number
                 if (index2 === -1) { searchPokemons?.push(data as ResponseAPI) }
             }
-            let set = new Set([
+            const set = new Set([
                 ...(searchPokemons as ResponseAPI[])
             ]);
             finalList = [...set]?.filter(n => n)
@@ -286,7 +287,7 @@ const useSearchPokemon = (search: string) => {
     async function loadFilterParams() {
         if (localStorage.filterParams) {
             setIsLoading(true)
-            let localFilterParams = JSON.parse(localStorage.filterParams ?? "")
+            const localFilterParams = JSON.parse(localStorage.filterParams ?? "")
             setFilterParams(localFilterParams)
             filterParmsRef.current = localFilterParams
             await getFinalListFromFilterParams(localFilterParams)

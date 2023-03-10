@@ -14,7 +14,7 @@ const usePageHandler = () => {
     const urlParams = new URLSearchParams(queryString);
     //get page params in url (xxxx/?page=urlParams)
 
-    let localPage = localStorage.getItem("page") ?? "1";
+    const localPage = localStorage.getItem("page") ?? "1";
     const pageParms = urlParams.get("page") ?? localPage;
     if (pageParms <= localPage) {
       //page params is smaller then local store's page
@@ -23,7 +23,7 @@ const usePageHandler = () => {
     } else {
       //go to previous page that store in local store
       //and change the url to correct one
-      let finalUrl = window.location.origin + "/?page=" + localPage;
+      const finalUrl = window.location.origin + "/?page=" + localPage;
 
       window.location.href = finalUrl;
     }

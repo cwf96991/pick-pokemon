@@ -8,7 +8,7 @@ function getListBox(pokemons: any[], abilities: any[]) {
       ratio: 8,
       displayField: "name",
       data: async (query: string) => {
-        let filteredPokemons = pokemons.filter((pokemon: IPokemon) => {
+        const filteredPokemons = pokemons.filter((pokemon: IPokemon) => {
           return pokemon.name.startsWith(query);
         });
 
@@ -22,7 +22,7 @@ function getListBox(pokemons: any[], abilities: any[]) {
       ratio: 2,
       displayField: "name",
       data: async (query: string) => {
-        let filteredPokemons = abilities.filter((ability: IPokemon) => {
+        const filteredPokemons = abilities.filter((ability: IPokemon) => {
           return ability.name.startsWith(query);
         });
 

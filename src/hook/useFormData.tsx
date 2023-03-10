@@ -14,13 +14,13 @@ function useFormData() {
 
   const loadDataFromlocalStorage = () => {
     setIsLoading(true);
-    let firstName = localStorage.getItem("firstName") ?? "";
+    const firstName = localStorage.getItem("firstName") ?? "";
     setFirstName(firstName);
-    let lastName = localStorage.getItem("lastName") ?? "";
+    const lastName = localStorage.getItem("lastName") ?? "";
     setLastName(lastName);
-    let phoneNumber = localStorage.getItem("phoneNumber") ?? "";
+    const phoneNumber = localStorage.getItem("phoneNumber") ?? "";
     setPhoneNumber(phoneNumber);
-    let address = localStorage.getItem("address") ?? "";
+    const address = localStorage.getItem("address") ?? "";
     setAddress(address);
     setIsLoading(false);
   };

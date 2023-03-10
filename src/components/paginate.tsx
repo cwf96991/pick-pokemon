@@ -2,18 +2,21 @@ import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
 const Paginate = (props: {
-  items: any;
-  itemsListView: any;
+  items: any[];
+  itemsListView: Function;
   pageClassName?: string;
   itemsInPage?: number;
+  clearAllRowRef?:any;
 }) => {
-  const { items, itemsListView, itemsInPage, pageClassName } = props;
+  const { items, itemsListView, itemsInPage, pageClassName ,clearAllRowRef} = props;
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = itemsInPage??4
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = items.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(items.length / itemsPerPage);
   const handlePageClick = (event: { selected: number }) => {
+    // scroll to clear all row
+    clearAllRowRef.current.scrollIntoView() 
     const newOffset = (event.selected * itemsPerPage) % items.length;
     setItemOffset(newOffset);
   };

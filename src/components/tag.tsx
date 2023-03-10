@@ -5,7 +5,7 @@ const Tag = (props: { type: string; query: string; onDelete?: Function }) => {
   const typeConverter = () => {
     //hide prefix if type is pokemon 
     if (type === "pokemon") return "";
-    let result = type.replace("pokemon", "");
+    const result = type.replace("pokemon", "");
     return result.replace("-", " ") + ":";
   };
   return (

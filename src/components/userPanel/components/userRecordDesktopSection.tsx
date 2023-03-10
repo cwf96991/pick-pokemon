@@ -4,7 +4,7 @@ import { IRecord } from "../../../interface/record";
 import UserRecord from "./userRecord";
 function Items(props: {
   recordRef: any;
-  currentItems: any;
+  currentItems: any[];
   deleteUserRecord: Function;
 }) {
   const { currentItems, deleteUserRecord, recordRef } = props;

@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { ResponseAPI } from "../interface/pokemon";
 
 const useSelectPokemon = () => {
-  const [pokemonMap, setPokemonMap] = useState<any>({});
+  const [pokemonMap, setPokemonMap] = useState<{ [id: string]: any }>({});
   const [selectedPokemonList, setSelectedPokemonList] =
     useState<ResponseAPI[]>();
   useEffect(() => {
     if (localStorage.pokemonMap) {
-      let localPokemonMap = JSON.parse(localStorage.pokemonMap);
+      const localPokemonMap = JSON.parse(localStorage.pokemonMap);
       setPokemonMap(localPokemonMap);
     } else {
       localStorage.pokemonMap = JSON.stringify({});
@@ -20,7 +20,7 @@ const useSelectPokemon = () => {
   function isSelected(pokemon: ResponseAPI) {
     if (pokemon && Object.keys(pokemon).length === 0) return false;
 
-    let pokemonName = pokemon?.name ?? "";
+    const pokemonName = pokemon?.name ?? "";
     if (pokemonMap[pokemonName] && pokemonMap[pokemonName] !== "") {
       return true;
     }
@@ -35,8 +35,8 @@ const useSelectPokemon = () => {
     return false;
   }
   function togglePokemon(pokemon: ResponseAPI) {
-    let localPokemonMap = JSON.parse(localStorage.pokemonMap);
-    let pokemonName = pokemon.name;
+    const localPokemonMap = JSON.parse(localStorage.pokemonMap);
+    const pokemonName = pokemon.name;
     if (localPokemonMap[pokemonName] && localPokemonMap[pokemonName] !== "") {
       localPokemonMap[pokemonName] = "";
     } else {
@@ -46,7 +46,7 @@ const useSelectPokemon = () => {
     localStorage.pokemonMap = JSON.stringify(localPokemonMap);
   }
   function deletePokemonByName(pokemonName: string) {
-    let localPokemonMap = JSON.parse(localStorage.pokemonMap);
+    const localPokemonMap = JSON.parse(localStorage.pokemonMap);
 
     localPokemonMap[pokemonName] = "";
     setPokemonMap(localPokemonMap);
@@ -54,8 +54,8 @@ const useSelectPokemon = () => {
   }
 
   function getSelectedPokemonList() {
-    let list: any = [];
-    Object.values(pokemonMap).forEach((value) => {
+    const list: ResponseAPI[] = [];
+    Object.values(pokemonMap).forEach((value ) => {
       if (value !== "") {
         list.push(value);
       }

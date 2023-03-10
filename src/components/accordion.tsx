@@ -12,8 +12,8 @@ const Accordion = (props: {
   const [rotate, setRotate] = useState("transform duration-700 ease");
   const contentSpace = useRef(null);
   function toggleAccordion(e: React.MouseEvent<HTMLElement>) {
-    let target = e.target as HTMLElement;
-    let forValue = target.getAttribute("for");
+    const target = e.target as HTMLElement;
+    const forValue = target.getAttribute("for");
     if (forValue !== "delete-modal") {
       setActive((prevState) => !prevState);
       // @ts-ignore
