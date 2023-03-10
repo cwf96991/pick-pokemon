@@ -20,6 +20,7 @@ const UserPanel = (props: {
   const { isDarkMode } = props;
   const { isMobile } = useIsMobile();
   const { userRecord, deleteUserRecord } = useUserRecord();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recordRef = useRef<any>();
 
   return (
@@ -51,12 +52,12 @@ const UserPanel = (props: {
             User Record
           </div>
           <div className="h-[calc(100vh-250px)] overflow-y-auto">
-          <UserRecordList
-            userRecord={userRecord}
-            isMobile={isMobile}
-            deleteUserRecord={deleteUserRecord}
-            recordRef={recordRef}
-          />
+            <UserRecordList
+              userRecord={userRecord}
+              isMobile={isMobile}
+              deleteUserRecord={deleteUserRecord}
+              recordRef={recordRef}
+            />
           </div>
           <DeleteModal
             onConfirm={() => {

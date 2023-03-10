@@ -1,5 +1,5 @@
 import SearchBox from "./searchBox";
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useSearchPokemon from "../../../hook/useSearchPokemon";
 import Pokemon from "./pokemon";
 import useSelectPokemon from "../../../hook/useSelectPokemon";
@@ -106,16 +106,10 @@ const PokemonForm = (props: { setPage: Function }) => {
       (nameFilter.length > 0 && finalPokemons.length === 0) ||
       (filterParams.length > 0 && finalPokemons.length === 0) ||
       (filterParamsWithoutSize > 0 && finalPokemons.length === 0);
-    //Display the loading effect if the filter parameters are present but the final list of Pokémon is not yet available, 
+    //Display the loading effect if the filter parameters are present but the final list of Pokémon is not yet available,
     //or if the filter parameters have been added but the Pokémon data has not been retrieved yet.
     return (
-      <div
-        className={`${
-          finalFilterParams.length > 0
-            ? "md:h-[calc(100vh-680px)]"
-            : "md:h-[calc(100vh-550px)]"
-        }`}
-      >
+      <div>
         {isLoadingData ? (
           <div className=" md:grid-cols-2 grid grid-cols-1">
             <LoadingCard />
@@ -123,10 +117,9 @@ const PokemonForm = (props: { setPage: Function }) => {
           </div>
         ) : (
           <div
-          
             className={`${
               finalFilterParams.length > 0
-                ? "md:h-[calc(100vh-680px)]"
+                ? "md:h-[calc(100vh-600px)]"
                 : "md:h-[calc(100vh-550px)]"
             } mb-2 my-2 grid grid-cols-1 md:grid-cols-2 overflow-y-auto gap-2 `}
           >
@@ -134,7 +127,7 @@ const PokemonForm = (props: { setPage: Function }) => {
               pokemons.map((pokemon: string, index) => {
                 return (
                   <Pokemon
-                  id={"pokemon"+index}
+                    id={"pokemon" + index}
                     key={index}
                     pokemon={cachePokemon[pokemon]}
                     isSelected={isSelected}
@@ -187,7 +180,7 @@ const PokemonForm = (props: { setPage: Function }) => {
   };
   const ClearAllAndPokemonNumber = () => {
     return (
-      <div  className="flex items-center pt-2">
+      <div className="flex items-center pt-2">
         {finalFilterParams.length > 0 && (
           <button
             onClick={() => {
@@ -283,20 +276,18 @@ const PokemonForm = (props: { setPage: Function }) => {
   };
   const PokemonContent = () => {
     return (
-      <div className=" mb-4">
-        <Paginate
-          items={finalPokemons}
-          itemsListView={(items: string[]) => {
-            return <PokemonListView pokemons={items} />;
-          }}
-          itemsInPage={10}
-        />
-      </div>
+      <Paginate
+        items={finalPokemons}
+        itemsListView={(items: string[]) => {
+          return <PokemonListView pokemons={items} />;
+        }}
+        itemsInPage={10}
+      />
     );
   };
   return (
-    <div className="flex-1 flex flex-col m-0 md:m-6 justify-between min-h-[450px]  md:border  mt-10 rounded-lg">
-      <div className="md:px-12 md:pt-10 px-2 py-2">
+    <div className="flex-1 flex flex-col m-0 md:m-6 justify-between min-h-[450px]  md:border  mt-10 rounded-lg ">
+      <div className="md:px-12 md:pt-10 px-2 py-2 md:py-0">
         <div className="dark:text-white mb-2 text-black">Pick Your Pokemon</div>
         <SearchBox
           turnstoneRef={turnstoneRef}

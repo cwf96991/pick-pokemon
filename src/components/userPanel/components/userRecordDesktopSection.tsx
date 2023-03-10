@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Paginate from "../../paginate";
 import { IRecord } from "../../../interface/record";
 
@@ -33,7 +34,7 @@ const UserRecordList = (props: {
   const { userRecord, isMobile, deleteUserRecord, recordRef } = props;
   return (
     <>
-      <div className=" w-full h-full flex flex-col overfloat-y-auto">
+      <div className=" w-full h-full flex flex-col overflow-y-auto">
         {userRecord.length > 0 && (
           <Paginate
             pageClassName="  "

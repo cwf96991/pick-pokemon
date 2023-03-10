@@ -3,7 +3,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useDarkMode from "./hook/useDarkMode";
 import UserPanel from "./components/userPanel/index";
-import DarkModeButton from "./components/darkModeButton";
 import usePageHandler from "./hook/usePageHandler";
 import Form from "./components/form/index";
 function App() {
@@ -13,9 +12,6 @@ function App() {
   const MainPanel = () => {
     return (
       <div className="md:m-auto m-4">
-        <div className="hidden md:flex md:w-[520px] mx-auto pr-5">
-          <DarkModeButton />
-        </div>
         <Header page={page} setPage={pageClickHandler} />
         <Form page={page} setPage={setPage} />
       </div>

@@ -36,7 +36,7 @@ const Pokemon = (props: {
             onClick={() => {
               togglePokemon(pokemon);
             }}
-            className={`overfloat-y-auto cursor-pointer  h-[180px] max-w-sm hover:bg-gray-200 dark:hover:bg-gray-600 rounded overflow-hidden shadow-lg ${
+            className={`overflow-y-auto cursor-pointer  h-[180px] max-w-sm hover:bg-gray-200 dark:hover:bg-gray-600 rounded overflow-hidden shadow-lg ${
               isSelected(pokemon)
                 ? "border-2 border-red-600 dark:border-red-900"
                 : "border-2 border-gray-500"

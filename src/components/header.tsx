@@ -1,3 +1,5 @@
+import DarkModeButton from "./darkModeButton";
+
 const Step = (props: {
   mobileHiddenText?: string;
   text: string;
@@ -72,33 +74,39 @@ const ActiveArrow = () => {
 const Header = (props: { page: number; setPage: Function }) => {
   const { page, setPage } = props;
   return (
-    <ol className="md:max-w-[480px] mx-auto md:p-3 md:space-x-2 dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 flex items-center w-full p-2 mt-4 space-x-1 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm">
-      <Step
-        text={"Personal Info"}
-        mobileHiddenText={"Info"}
-        page={1}
-        isActive={page === 1}
-        onClick={(page: number) => {
-          setPage(page);
-        }}
-      />
-      <Step
-        text={"Pokemon"}
-        page={2}
-        isActive={page === 2}
-        onClick={(page: number) => {
-          setPage(page);
-        }}
-      />
-      <Step
-        text={"Review"}
-        page={3}
-        isActive={page === 3}
-        onClick={(page: number) => {
-          setPage(page);
-        }}
-      />
-    </ol>
+    <div className="flex items-center mt-4 justify-between mx-auto">
+      <ol className=" ml-auto md:max-w-[480px]  md:p-3 md:space-x-2 dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 flex items-center w-full p-2  space-x-1 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <Step
+          text={"Personal Info"}
+          mobileHiddenText={"Info"}
+          page={1}
+          isActive={page === 1}
+          onClick={(page: number) => {
+            setPage(page);
+          }}
+        />
+        <Step
+          text={"Pokemon"}
+          page={2}
+          isActive={page === 2}
+          onClick={(page: number) => {
+            setPage(page);
+          }}
+        />
+        <Step
+          text={"Review"}
+          page={3}
+          isActive={page === 3}
+          onClick={(page: number) => {
+            setPage(page);
+          }}
+        />
+      </ol>
+      <div></div>
+      <div className="mx-auto md:block hidden">
+        <DarkModeButton />
+      </div>
+    </div>
   );
 };
 
