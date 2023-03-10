@@ -1,39 +1,48 @@
-import { useEffect, useState } from "react";
-import {Form, Header,PokemonForm} from "./components/"
+import { Header } from "./components/"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import useDarkMode from "./hook/useDarkMode";
+import UserPanel from "./components/userPanel/index"
+import DarkModeButton from "./components/darkModeButton"
+import usePageHandler from "./hook/usePageHandler";
+import Form from "./components/form/index"
 function App() {
-  const [page,setPage] = useState(1)
-  const pageClickHandler=(nextPage:number)=>{
-    //user can only go back to previous page
-    console.log("nextPage",nextPage)
-    if (nextPage<page){
-      setPage(nextPage)
-      localStorage.setItem("page",nextPage.toString())
-    }
-  }
-  useEffect(()=>{
-    let page = localStorage.getItem("page")??"1"
-    setPage(Number(page))
-  },[])
-  const PageContent = ()=>{
-    if (page===1)
-    return <Form
-    setPage={setPage}
-    />
-    if (page===2)
-    return <PokemonForm/>
+  const { isDarkMode, toggleDarkModeHandler } = useDarkMode()
+  const { page, setPage, pageClickHandler } = usePageHandler()
 
-    return <></>
-  }
-  return (
-    <div className="w-screen h-screen flex ">
-      <div className="max-w-4xl m-auto ">
-        <Header 
+  const MainPanel = () => {
+    return <div className="md:m-auto m-4">
+      <div className="hidden md:flex md:w-[520px] mx-auto pr-5">
+        <DarkModeButton
+        
+        />
+      </div>
+      <Header
         page={page}
         setPage={pageClickHandler}
-        />
-      <PageContent/>
+      />
+      <Form
+        page={page}
+        setPage={setPage}
+      />
+    </div>
+  }
+
+  return (
+    <div className={`${isDarkMode ? "dark" : ""}`}>
+      <div className={`w-screen h-screen flex flex-col  md:flex-row bg-white dark:bg-black `}>
+        <div className="md:w-1/3 w-full ">
+          <UserPanel 
+            isDarkMode={isDarkMode}
+            toggleDarkModeHandler={toggleDarkModeHandler}
+          />
+        </div>
+        <div className="bg-gray-100 dark:bg-gray-800 md:w-1/2 w-full flex flex-col flex-1">
+          <MainPanel />
+        </div>
+        <ToastContainer />
       </div>
-      
+
     </div>
   );
 }
