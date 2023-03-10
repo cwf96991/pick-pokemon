@@ -1,38 +1,34 @@
-import { Header } from "./components/"
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Header } from "./components/";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import useDarkMode from "./hook/useDarkMode";
-import UserPanel from "./components/userPanel/index"
-import DarkModeButton from "./components/darkModeButton"
+import UserPanel from "./components/userPanel/index";
+import DarkModeButton from "./components/darkModeButton";
 import usePageHandler from "./hook/usePageHandler";
-import Form from "./components/form/index"
+import Form from "./components/form/index";
 function App() {
-  const { isDarkMode, toggleDarkModeHandler } = useDarkMode()
-  const { page, setPage, pageClickHandler } = usePageHandler()
+  const { isDarkMode, toggleDarkModeHandler } = useDarkMode();
+  const { page, setPage, pageClickHandler } = usePageHandler();
 
   const MainPanel = () => {
-    return <div className="md:m-auto m-4">
-      <div className="hidden md:flex md:w-[520px] mx-auto pr-5">
-        <DarkModeButton
-        
-        />
+    return (
+      <div className="md:m-auto m-4">
+        <div className="hidden md:flex md:w-[520px] mx-auto pr-5">
+          <DarkModeButton />
+        </div>
+        <Header page={page} setPage={pageClickHandler} />
+        <Form page={page} setPage={setPage} />
       </div>
-      <Header
-        page={page}
-        setPage={pageClickHandler}
-      />
-      <Form
-        page={page}
-        setPage={setPage}
-      />
-    </div>
-  }
+    );
+  };
 
   return (
     <div className={`${isDarkMode ? "dark" : ""}`}>
-      <div className={`w-screen h-screen flex flex-col  md:flex-row bg-white dark:bg-black `}>
+      <div
+        className={`w-screen h-screen flex flex-col  md:flex-row bg-white dark:bg-black `}
+      >
         <div className="md:w-1/3 w-full ">
-          <UserPanel 
+          <UserPanel
             isDarkMode={isDarkMode}
             toggleDarkModeHandler={toggleDarkModeHandler}
           />
@@ -42,7 +38,6 @@ function App() {
         </div>
         <ToastContainer />
       </div>
-
     </div>
   );
 }

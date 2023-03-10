@@ -1,17 +1,32 @@
-const Step = (props: { mobileHiddenText?: string, text: string, page: number, isActive: boolean; onClick: Function }) => {
+const Step = (props: {
+  mobileHiddenText?: string;
+  text: string;
+  page: number;
+  isActive: boolean;
+  onClick: Function;
+}) => {
   const { isActive, onClick, page, text, mobileHiddenText } = props;
-  const pcDisplayText = text.replace(mobileHiddenText ?? "", "")
+  const pcDisplayText = text.replace(mobileHiddenText ?? "", "");
   return (
     <li
       onClick={() => {
         onClick(page);
       }}
-      className={`cursor-pointer flex items-center ${isActive ? "text-red-600 dark:text-red-500" : ""}`}
+      className={`cursor-pointer flex items-center ${
+        isActive ? "text-red-600 dark:text-red-500" : ""
+      }`}
     >
-      <span className={`flex items-center justify-center w-5 h-5 mr-2 text-xs border  ${isActive ? "border-red-600 dark:border-red-500 " : "border-gray-500 dark:border-gray-400"}  rounded-full shrink-0 `}>
+      <span
+        className={`flex items-center justify-center w-5 h-5 mr-2 text-xs border  ${
+          isActive
+            ? "border-red-600 dark:border-red-500 "
+            : "border-gray-500 dark:border-gray-400"
+        }  rounded-full shrink-0 `}
+      >
         {page}
       </span>
-      {pcDisplayText} <span className="sm:inline-flex sm:ml-2 hidden">{mobileHiddenText}</span>
+      {pcDisplayText}{" "}
+      <span className="sm:inline-flex sm:ml-2 hidden">{mobileHiddenText}</span>
       {isActive ? <ActiveArrow /> : <Arrow />}
     </li>
   );
@@ -64,7 +79,7 @@ const Header = (props: { page: number; setPage: Function }) => {
         page={1}
         isActive={page === 1}
         onClick={(page: number) => {
-          setPage(page)
+          setPage(page);
         }}
       />
       <Step
@@ -72,7 +87,7 @@ const Header = (props: { page: number; setPage: Function }) => {
         page={2}
         isActive={page === 2}
         onClick={(page: number) => {
-          setPage(page)
+          setPage(page);
         }}
       />
       <Step
@@ -80,7 +95,7 @@ const Header = (props: { page: number; setPage: Function }) => {
         page={3}
         isActive={page === 3}
         onClick={(page: number) => {
-          setPage(page)
+          setPage(page);
         }}
       />
     </ol>

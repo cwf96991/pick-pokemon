@@ -5,7 +5,8 @@
 
 - Save user information immediately upon input
 - Allow only 10-digit Canadian phone numbers
-- Search for Pokémon by name and other filters
+- Search for Pokémon by name and apply filters with autocomplete.
+- Make header clickable to navigate to the previous page.
 - Allow users to review and edit input
 - Enable dark mode
 - Make the website mobile-responsive and mobile-friendly by using a drawer for their records and refining their search

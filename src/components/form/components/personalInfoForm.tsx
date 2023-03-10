@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "react-phone-number-input/style.css";
 import useFormData from "../../../hook/useFormData";
-import * as yup from "yup";
 import { IUser } from "../../../interface/user";
 import { AddUserSchema, PHONE_NUMBER_DIDITS, isNumeric } from "../utils/form"
 
@@ -111,7 +110,7 @@ const PersonalInfoForm = (props: { setPage: Function }) => {
                             value={phoneNumber}
                             onChange={(e) => {
 
-                                if (e.target.value.length <= PHONE_NUMBER_DIDITS && isNumeric(e.target.value) || e.target.value.length === 0) {
+                                if ((e.target.value.length <= PHONE_NUMBER_DIDITS && isNumeric(e.target.value)) || e.target.value.length === 0) {
                                     setPhoneNumber(e.target.value);
                                 }
                             }}

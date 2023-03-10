@@ -1,81 +1,81 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { ResponseAPI } from "../interface/pokemon";
 
 const useSelectPokemon = () => {
-    const [pokemonMap, setPokemonMap] = useState<any>({})
-    const [selectedPokemonList, setSelectedPokemonList] = useState<ResponseAPI[]>()
-    useEffect(() => {
-        if (localStorage.pokemonMap) {
-            let localPokemonMap = JSON.parse(localStorage.pokemonMap);
-            setPokemonMap(localPokemonMap)
-        } else {
-            localStorage.pokemonMap = JSON.stringify({});
-        }
-
-
-    }, [])
-    useEffect(() => {
-        getSelectedPokemonList()
-    }, [pokemonMap])
-    function isSelected(pokemon: ResponseAPI) {
-        if (pokemon && Object.keys(pokemon).length === 0) return false
-
-        let pokemonName = pokemon?.name ?? ""
-        if (pokemonMap[pokemonName] && pokemonMap[pokemonName] !== "") { return true }
-
-        return false
+  const [pokemonMap, setPokemonMap] = useState<any>({});
+  const [selectedPokemonList, setSelectedPokemonList] =
+    useState<ResponseAPI[]>();
+  useEffect(() => {
+    if (localStorage.pokemonMap) {
+      let localPokemonMap = JSON.parse(localStorage.pokemonMap);
+      setPokemonMap(localPokemonMap);
+    } else {
+      localStorage.pokemonMap = JSON.stringify({});
     }
-    function isSelectedByName(pokemonName: string) {
+  }, []);
+  useEffect(() => {
+    getSelectedPokemonList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pokemonMap]);
+  function isSelected(pokemon: ResponseAPI) {
+    if (pokemon && Object.keys(pokemon).length === 0) return false;
 
-        if (pokemonMap[pokemonName] && pokemonMap[pokemonName] !== "") { return true }
+    let pokemonName = pokemon?.name ?? "";
+    if (pokemonMap[pokemonName] && pokemonMap[pokemonName] !== "") {
+      return true;
+    }
 
-        return false
+    return false;
+  }
+  function isSelectedByName(pokemonName: string) {
+    if (pokemonMap[pokemonName] && pokemonMap[pokemonName] !== "") {
+      return true;
     }
-    function togglePokemon(pokemon: ResponseAPI) {
-        let localPokemonMap = JSON.parse(localStorage.pokemonMap);
-        let pokemonName = pokemon.name
-        if (localPokemonMap[pokemonName] && localPokemonMap[pokemonName] !== "") {
-            localPokemonMap[pokemonName] = ""
-        } else {
-            localPokemonMap[pokemonName] = pokemon
-        }
-        setPokemonMap(localPokemonMap)
-        localStorage.pokemonMap = JSON.stringify(localPokemonMap);
 
+    return false;
+  }
+  function togglePokemon(pokemon: ResponseAPI) {
+    let localPokemonMap = JSON.parse(localStorage.pokemonMap);
+    let pokemonName = pokemon.name;
+    if (localPokemonMap[pokemonName] && localPokemonMap[pokemonName] !== "") {
+      localPokemonMap[pokemonName] = "";
+    } else {
+      localPokemonMap[pokemonName] = pokemon;
     }
-    function deletePokemonByName(pokemonName: string) {
-        let localPokemonMap = JSON.parse(localStorage.pokemonMap);
+    setPokemonMap(localPokemonMap);
+    localStorage.pokemonMap = JSON.stringify(localPokemonMap);
+  }
+  function deletePokemonByName(pokemonName: string) {
+    let localPokemonMap = JSON.parse(localStorage.pokemonMap);
 
-        localPokemonMap[pokemonName] = ""
-        setPokemonMap(localPokemonMap)
-        localStorage.pokemonMap = JSON.stringify(localPokemonMap);
-    }
-    
-    function getSelectedPokemonList() {
-        let list: any = []
-        Object.values(pokemonMap).forEach(value => {
-            if (value !== "") {
-                list.push(value)
-            }
-        })
+    localPokemonMap[pokemonName] = "";
+    setPokemonMap(localPokemonMap);
+    localStorage.pokemonMap = JSON.stringify(localPokemonMap);
+  }
 
-        setSelectedPokemonList(list);
-    }
-    function clearSelectedPokemon() {
-        localStorage.pokemonMap = JSON.stringify({});
-        setPokemonMap({})
-    }
-    return {
-        pokemonMap,
-        isSelected,
-        isSelectedByName,
-        // selectedPokemonNameList,
-        togglePokemon,
-        deletePokemonByName,
-        clearSelectedPokemon,
-        selectedPokemonList,
-        // getSelectedPokemonNameList
-    }
-}
+  function getSelectedPokemonList() {
+    let list: any = [];
+    Object.values(pokemonMap).forEach((value) => {
+      if (value !== "") {
+        list.push(value);
+      }
+    });
 
-export default useSelectPokemon
+    setSelectedPokemonList(list);
+  }
+  function clearSelectedPokemon() {
+    localStorage.pokemonMap = JSON.stringify({});
+    setPokemonMap({});
+  }
+  return {
+    pokemonMap,
+    isSelected,
+    isSelectedByName,
+    togglePokemon,
+    deletePokemonByName,
+    clearSelectedPokemon,
+    selectedPokemonList,
+  };
+};
+
+export default useSelectPokemon;

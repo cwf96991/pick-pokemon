@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react';
 import { ResponseAPI } from '../interface/pokemon';
 interface IFilterParams {
@@ -56,7 +57,7 @@ const useSearchPokemon = (search: string) => {
     }
     function getSelectedCountByType(type: string): number {
         let filterParams = filterParmsRef.current
-        return filterParams?.filter(param => param.type == type).length
+        return filterParams?.filter(param => param.type === type).length
 
     }
     const searchPokemonByFilter = async (type: string, query: string) => {
@@ -140,7 +141,7 @@ const useSearchPokemon = (search: string) => {
                     if (nameList) {
                         ListOfNameList.push(nameList)
                     } else {
-                        throw ("No Data")
+                        throw new Error("No Data")
                     }
 
                 }
@@ -166,13 +167,14 @@ const useSearchPokemon = (search: string) => {
 
     }
     function findSearchPokemonsByName(name: string) {
+        
         if (localStorage.searchedPokemons) {
             let localSearchedPokemons = JSON.parse(localStorage.searchedPokemons ?? "")
-            var index2 = localSearchedPokemons?.findIndex((pokemon: { name: string; }) => pokemon.name === name) as number
-            return index2
+            return localSearchedPokemons?.findIndex((pokemon: { name: string; }) => pokemon.name === name) as number
+            
         } else {
-            var index2 = searchPokemons?.findIndex(pokemon => pokemon.name === name) as number
-            return index2
+            return searchPokemons?.findIndex(pokemon => pokemon.name === name) as number
+            
         }
 
     }

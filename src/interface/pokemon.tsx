@@ -1,26 +1,26 @@
 export interface ResponseAPI {
-    egg_groups: Species[];
-    name: string;
-    sprites: { front_default: string }
-    types: Type[];
-    abilities: Ability[];
-    height: number;
-    weight: number;
-    id:string;
+  egg_groups: Species[];
+  name: string;
+  sprites: { front_default: string };
+  types: Type[];
+  abilities: Ability[];
+  height: number;
+  weight: number;
+  id: string;
 }
 interface Type {
-    slot: number;
-    type: Species;
+  slot: number;
+  type: Species;
 }
 interface Species {
-    name: string;
-    url: string;
+  name: string;
+  url: string;
 }
 interface Ability {
-    ability: Species;
+  ability: Species;
 }
 
 export interface IPokemon {
-    name: string;
-    url: string;
+  name: string;
+  url: string;
 }
