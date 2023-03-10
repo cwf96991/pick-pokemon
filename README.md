@@ -1,46 +1,72 @@
-# Getting Started with Create React App
+# Pokemon Picker by CWF
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+🚀 Project build with React, Tailwind CSS and TypeScript ⚡️
+### Features
 
-## Available Scripts
+- Save user information immediately upon input
+- Allow only 10-digit Canadian phone numbers
+- Search for Pokémon by name and other filters
+- Allow users to review and edit input
+- Enable dark mode
+- Make the website mobile-responsive and mobile-friendly by using a drawer for their records and refining their search
+- Manage user records by deleting them
+- Keep track of user input as they progress through the flow
+- Enable deep linking to a specific step in the flow (using "/?page=1")
+---
 
-In the project directory, you can run:
+### Progress Log
+<details>
+  <summary>3 Mar</summary>
+  
+  - Integrating Tailwind CSS into the project to ensure visually appealing user interfaces.
+  - Utilizing the "useForm" function from the "react-hook-form" plugin to effectively handle form validation, improving the overall user experience.
+  - Implementing the "useDebounce" hook to store form data in local storage, resulting in a better performing application.
+  - Creating a custom hook (useFormData) to load and save form data from local storage when there is a change in the form data, improving data management.
+  - Calling an API to retrieve a Pokemon by name or ID using a search bar, providing users with more options for finding their desired Pokemon.
+  - Displaying the Pokemon item on the application, ensuring that users can easily view the Pokemon's attributes.
+  - Adding a click handler to the Pokemon item to enable users to favorite the Pokemon, improving user engagement and satisfaction.
+  - Creating a custom hook (useSelectPokemon) to to load and save data of user's selected Pokemon from local storage when there is a change in the form data, improving data management.And allowing users to save multiple favorites pokemon without losing data.
+</details>
 
-### `npm start`
+---
+<details>
+  <summary>6 Mar</summary>
+  
+  - Create review page with submission capability using custom hooks.
+  - Add useIsMobile for responsive UI.
+ 
+</details>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
+<details>
+  <summary>7 Mar</summary>
+  
+  - Expand search functionality to include other categories.
+  - Introduce dark mode using useDarkMode.
+  - Incorporate Material UI icons into the design.
+ 
+</details>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
+<details>
+  <summary>8 Mar</summary>
+  
+  - Allow searching for multiple Pokemon by name and pinning the results.
+  - Implement useSearchPokemon custom hook to enable search functionality.
 
-### `npm test`
+ 
+</details>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+<details>
+  <summary>9 Mar</summary>
+  
+  - Introduce drawer for mobile user record and mobile refine search using useDrawer.
+  - Add count number for selected query type and display the number of Pokemon results returned under the query
+  - Implement usePageHandler custom hook to handle deeplinks in the format of /?page (e.g. /?page=1).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ 
+</details>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
