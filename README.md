@@ -71,3 +71,12 @@
 </details>
 
 ---
+<details>
+  <summary>10 Mar</summary>
+  
+  - Utilizing ESLint to identify mistakes and enforce coding standards.
+  - Including comments to enhance code comprehension
+ 
+</details>
+
+---
