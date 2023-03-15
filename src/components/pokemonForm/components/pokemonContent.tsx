@@ -157,13 +157,13 @@ const PokemonListView = (props: { pokemons: string[], finalPokemons: string[], n
   };
 
 const PokemonContent = memo(function PokemonContent(props: { currentPage: number, setCurrentPage: (page: number) => void, 
-    finalPokemons: string[], nameFilter: IFilterParams[], filterParams: IFilterParams[], finalFilterParams: IFilterParams[],
+    finalPokemons: string[], nameFilter: IFilterParams[], filterParams: IFilterParams[],
     filterParamsWithoutSizeLength: number, cachePokemon: any, isSelected: (pokemon: ResponseAPI) => boolean, togglePokemon: (pokemon: ResponseAPI) => void
     showIsSeletedOnly:boolean,selectedPokemonList: ResponseAPI[]
   }) {
   
     const { currentPage, setCurrentPage, finalPokemons, nameFilter, filterParams, cachePokemon, filterParamsWithoutSizeLength,
-      finalFilterParams, isSelected, togglePokemon ,showIsSeletedOnly,selectedPokemonList} = props
+       isSelected, togglePokemon ,showIsSeletedOnly,selectedPokemonList} = props
     return (
       <Paginate
         currentPage={currentPage}

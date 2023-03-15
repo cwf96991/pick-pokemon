@@ -109,8 +109,8 @@ const PokemonForm = (props: { setPage: React.Dispatch<React.SetStateAction<numbe
   
           <PokemonContent currentPage={currentPage} setCurrentPage={setCurrentPage}
             finalPokemons={finalPokemons} nameFilter={nameFilter} 
-            filterParams={[]} finalFilterParams={[]} 
-            filterParamsWithoutSizeLength={0} 
+            filterParams={filterParams}  
+            filterParamsWithoutSizeLength={filterParamsWithoutSizeLength} 
             cachePokemon={cachePokemon} 
             isSelected={isSelected} togglePokemon={togglePokemon}
             showIsSeletedOnly={showIsSeletedOnly}
