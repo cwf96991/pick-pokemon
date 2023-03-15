@@ -19,13 +19,13 @@ const Turnstone = require("turnstone");
 
 const SEARCH_MAX_ITEM = 3;
 const SearchBox = (props: {
-  setSearchQuery: Function;
+  setSearchQuery: (query: string) => void;
   turnstoneRef: any;
-  toggleFilterParams: Function;
-  isSelectedFilter: Function;
+  toggleFilterParams: (type: string, query: string) => Promise<void>;
+  isSelectedFilter: (option: string) => boolean;
   filterTagWidget: ReactElement;
-  getSizebyParam: Function;
-  getSelectedCountByType: Function;
+  getSizebyParam: (query: string) => number;
+  getSelectedCountByType: (type: string) => number;
 }) => {
   const {
     setSearchQuery,
@@ -64,9 +64,12 @@ const SearchBox = (props: {
     if (id.length > 0) {
       avatar = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
     }
+    function nameFormatter(){
+      return item.name.replace("-", " ")
+    }
     return (
-      <div className="flex justify-between px-5 py-2 cursor-pointer items-center">
-        <div className="flex items-center ">
+      <div className="flex items-center justify-between px-5 py-2 cursor-pointer">
+        <div className=" flex items-center">
           {category === "Name" && (
             <img
               width={35}
@@ -80,7 +83,7 @@ const SearchBox = (props: {
               }}
             />
           )}
-          <p className="capitalize ">{item.name.replace("-", " ")}</p>
+          <p className=" capitalize">{nameFormatter()}</p>
         </div>
 
         {isSelected && (
@@ -158,7 +161,7 @@ const SearchBox = (props: {
         className="!w-4/5 p-4 !bg-gray-100 dark:!bg-gray-800 text-black dark:text-white h-screen overflow-y-auto"
       >
         <div className="text-2xl font-bold">Refine Your Search</div>
-        <div className="text-lg font-semibold mt-4">Applied Filters</div>
+        <div className="mt-4 text-lg font-semibold">Applied Filters</div>
         {filterTagWidget}
         <ExtraFilterWidgetMobile
           extraFilterList={extraFilterList}

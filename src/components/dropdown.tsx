@@ -4,8 +4,8 @@ const DropDown = (props: {
   isRight?: boolean;
   options: string[];
   sizes: string[];
-  onClick: Function;
-  isSelected: Function;
+  onClick: (option:string) => void;
+  isSelected: (option: string) => boolean;
   selectedCountText: string;
 }) => {
   const {
@@ -31,7 +31,7 @@ const DropDown = (props: {
         <div className="flex items-center">
           {text}
           {selectedCountText !== "" && (
-            <div className="mx-1 text-red-700 mt-[1px] ">
+            <div className="mx-1 text-red-700  ">
               {selectedCountText}
             </div>
           )}

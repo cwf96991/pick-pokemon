@@ -1,4 +1,4 @@
-const DeleteModal = (props: { onConfirm: Function }) => {
+const DeleteModal = (props: { onConfirm: () => void }) => {
   const { onConfirm } = props;
   return (
     <>

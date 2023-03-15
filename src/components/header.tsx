@@ -5,7 +5,7 @@ const Step = (props: {
   text: string;
   page: number;
   isActive: boolean;
-  onClick: Function;
+  onClick: (page:number) => void;
 }) => {
   const { isActive, onClick, page, text, mobileHiddenText } = props;
   const pcDisplayText = text.replace(mobileHiddenText ?? "", "");
@@ -71,7 +71,7 @@ const ActiveArrow = () => {
     </svg>
   );
 };
-const Header = (props: { page: number; setPage: Function }) => {
+const Header = (props: { page: number; setPage: (nextPage: number) => void }) => {
   const { page, setPage } = props;
   return (
     <div className="flex items-center mt-4 justify-between mx-auto">

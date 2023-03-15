@@ -1,23 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { ResponseAPI } from "../interface/pokemon";
 
 const useSelectPokemon = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pokemonMap, setPokemonMap] = useState<{ [id: string]: any }>({});
+  const [showIsSeletedOnly,setShowIsSelectedOnly] = useState(false)
   const [selectedPokemonList, setSelectedPokemonList] =
-    useState<ResponseAPI[]>();
+    useState<ResponseAPI[]>([]);
+    
   useEffect(() => {
     if (localStorage.pokemonMap) {
       const localPokemonMap = JSON.parse(localStorage.pokemonMap);
       setPokemonMap(localPokemonMap);
+      const list: ResponseAPI[] = [];
+      Object.values(localPokemonMap as { [id: string]: any }).forEach((value) => {
+        if (value !== "") {
+          list.push(value);
+        }
+      });
+
+      setSelectedPokemonList(list);
     } else {
       localStorage.pokemonMap = JSON.stringify({});
     }
   }, []);
-  useEffect(() => {
-    getSelectedPokemonList();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pokemonMap]);
+
   function isSelected(pokemon: ResponseAPI) {
     if (pokemon && Object.keys(pokemon).length === 0) return false;
 
@@ -27,6 +34,7 @@ const useSelectPokemon = () => {
     }
 
     return false;
+
   }
   function isSelectedByName(pokemonName: string) {
     if (pokemonMap[pokemonName] && pokemonMap[pokemonName] !== "") {
@@ -45,6 +53,15 @@ const useSelectPokemon = () => {
     }
     setPokemonMap(localPokemonMap);
     localStorage.pokemonMap = JSON.stringify(localPokemonMap);
+    const index = selectedPokemonList?.findIndex((pokemon) => {
+      return pokemon.name === pokemonName
+    }) as number
+    if (index !== -1) {
+      selectedPokemonList?.splice(index, 1)
+    } else {
+      selectedPokemonList?.push(pokemon)
+    }
+    setSelectedPokemonList(selectedPokemonList)
   }
   function deletePokemonByName(pokemonName: string) {
     const localPokemonMap = JSON.parse(localStorage.pokemonMap);
@@ -52,21 +69,23 @@ const useSelectPokemon = () => {
     localPokemonMap[pokemonName] = "";
     setPokemonMap(localPokemonMap);
     localStorage.pokemonMap = JSON.stringify(localPokemonMap);
+    const index = selectedPokemonList?.findIndex((pokemon) => {
+      return pokemon.name === pokemonName
+    }) as number
+    if (index !== -1) {
+
+      selectedPokemonList?.splice(index, 1)
+      setSelectedPokemonList(selectedPokemonList)
+    }
+
   }
 
-  function getSelectedPokemonList() {
-    const list: ResponseAPI[] = [];
-    Object.values(pokemonMap).forEach((value ) => {
-      if (value !== "") {
-        list.push(value);
-      }
-    });
-
-    setSelectedPokemonList(list);
-  }
+ 
   function clearSelectedPokemon() {
     localStorage.pokemonMap = JSON.stringify({});
     setPokemonMap({});
+    setSelectedPokemonList([])
+    setShowIsSelectedOnly(false)
   }
   return {
     pokemonMap,
@@ -76,6 +95,8 @@ const useSelectPokemon = () => {
     deletePokemonByName,
     clearSelectedPokemon,
     selectedPokemonList,
+    showIsSeletedOnly,
+    setShowIsSelectedOnly
   };
 };
 

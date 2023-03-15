@@ -3,11 +3,11 @@ import DeleteModal from "../../deleteModal";
 import Accordion from "../../accordion";
 import { IRecord } from "../../../interface/record";
 import useIsMobile from "../../../hook/useIsMobile";
-import { getAvatarFromPokemon } from "../../form/utils/pokemon";
 import { ResponseAPI } from "../../../interface/pokemon";
+import { getAvatarFromPokemon } from "../../pokemonForm/utils/pokemon";
 
-const UserRecord = (props: { recordRef: any, record: IRecord, onDelete: Function }) => {
-    const { record, onDelete, recordRef } = props;
+const UserRecord = (props: { updateRecordRef: (record: IRecord) => void, record: IRecord, onDelete: (record: IRecord) => void }) => {
+    const { record, onDelete, updateRecordRef } = props;
     const { isMobile } = useIsMobile()
     const { firstName, lastName, address, phoneNumber, selectedPokemon } = record
     return <>
@@ -37,7 +37,7 @@ const UserRecord = (props: { recordRef: any, record: IRecord, onDelete: Function
             suffix={
                 <label
                     onClick={() => {
-                        recordRef.current = record
+                        updateRecordRef(record)
                     }}
                     htmlFor="delete-modal"
                     className="cursor-pointer mr-4 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-0.5 text-center"

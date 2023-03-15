@@ -1,7 +1,7 @@
 import DropDown from "../../dropdown";
 import Accordion from "../../accordion";
 
-const MobileExtraFilterButton = (props: { toggleDrawer: Function }) => {
+const MobileExtraFilterButton = (props: { toggleDrawer: () => void }) => {
   const { toggleDrawer } = props;
   return (
     <div className="md:hidden block">
@@ -21,17 +21,17 @@ const MobileExtraFilterButton = (props: { toggleDrawer: Function }) => {
   );
 };
 interface IFilterList {
-  data: any[];
+  data:   {name:string}[];
   type: string;
   text: string;
   isRight: boolean;
 }
 const ExtraFilterWidget = (props: {
   extraFilterList: IFilterList[];
-  toggleFilterParams: Function;
-  isSelectedFilter: Function;
-  getSizebyParam: Function;
-  getSelectedCountByType: Function;
+  toggleFilterParams: (type: string, query: string) => Promise<void>;
+  isSelectedFilter: (option:string) => boolean;
+  getSizebyParam: (query: string) => number;
+  getSelectedCountByType: (type: string) => number;
 }) => {
   const {
     extraFilterList,
@@ -53,11 +53,12 @@ const ExtraFilterWidget = (props: {
         return (
           <DropDown
             key={index}
-            options={data.map((data: any) => data.name)}
-            sizes={data.map((data: any) => {
-              return getSizebyParam(data.name) > 0
-                ? `(${getSizebyParam(data.name)})`
-                : "";
+            options={data.map((data:{name:string} ) => data.name)}
+            sizes={data.map((data: {name:string} ) => {
+             const countText = getSizebyParam(data.name) > 0
+             ? `(${getSizebyParam(data.name)})`
+             : ""
+              return countText;
             })}
             onClick={(option: string) => {
               toggleFilterParams(type, option);
@@ -74,10 +75,10 @@ const ExtraFilterWidget = (props: {
 };
 const ExtraFilterWidgetMobile = (props: {
   extraFilterList: IFilterList[];
-  toggleFilterParams: Function;
-  isSelectedFilter: Function;
-  getSizebyParam: Function;
-  getSelectedCountByType: Function;
+  toggleFilterParams: (type: string, query: string) => Promise<void>;
+  isSelectedFilter: (option: string) => boolean;
+  getSizebyParam: (query: string) => number;
+  getSelectedCountByType: (type: string) => number;
 }) => {
   const {
     extraFilterList,
@@ -109,7 +110,7 @@ const ExtraFilterWidgetMobile = (props: {
             content={
               <div>
                 {data
-                  .map((data: any) => data.name)
+                  .map((data: {name:string}) => data.name)
                   .map((option, index) => {
                     const isSelected = isSelectedFilter(option);
                     const sizeText =
@@ -119,7 +120,7 @@ const ExtraFilterWidgetMobile = (props: {
                     return (
                       <li className=" flex" key={index}>
                         <div
-                          className=" text-black dark:text-white flex items-center mb-2"
+                          className=" dark:text-white flex items-center mb-2 text-black"
                           onClick={() => {
                             toggleFilterParams(type, option);
                           }}
@@ -128,11 +129,11 @@ const ExtraFilterWidgetMobile = (props: {
                             type="checkbox"
                             readOnly
                             checked={isSelected}
-                            className="mr-2 checkbox checkbox-warning"
+                            className="checkbox checkbox-warning mr-2"
                           />
                           <div className="">
                             {option}{" "}
-                            <div className="inline text-red-700 text-bold">
+                            <div className="text-bold inline text-red-700">
                               {sizeText}
                             </div>
                           </div>

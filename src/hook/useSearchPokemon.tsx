@@ -10,6 +10,44 @@ const useSearchPokemon = (search: string) => {
     const [searchPokemons, setSearchPokemons] = useState<ResponseAPI[] | null>([] as ResponseAPI[]);
     const [isLoading, setIsLoading] = useState(false)
     const [filteredPokemon, setFilteredPokemon] = useState<string[]>([])
+    useEffect(() => {
+        loadFilterParams()
+        window.addEventListener('storage', () => {
+            loadFilterParams()
+        })
+        return () => window.removeEventListener("storage", loadFilterParams);
+    }, [])
+    useEffect(() => {
+        loadSearchedPokemons()
+        return () => {
+            setSearchPokemons([])
+        }
+    }, [])
+    useEffect(() => {
+        const controller = new AbortController();
+        try {
+            if (search && search !== " ") {
+                setIsLoading(true)
+                searchPokemon(search, controller.signal)
+                    .then(data => {
+                        const index2 = getSearchPokemonsIndexByName(data?.name as string)
+                        if (index2 === -1) {
+                            searchPokemons?.unshift(data as ResponseAPI)
+                            const set = new Set([
+                                ...(searchPokemons as ResponseAPI[])
+                            ]);
+                            const finalList = [...set]?.filter(n => n)
+                            localStorage.searchedPokemons = JSON.stringify(finalList)
+                            setSearchPokemons(finalList)
+                        }
+                    })
+            }
+        } finally {
+            setIsLoading(false);
+        }
+
+        return () => controller.abort();
+    }, [search])
     const searchPokemon = async (pokemon: string, signal?: AbortSignal): Promise<ResponseAPI | null> => {
         if (pokemon.trim().length === 0) return null;
         if (cachePokemon[pokemon]) {
@@ -31,32 +69,6 @@ const useSearchPokemon = (search: string) => {
             return null
         }
     }
-    function isSelectedFilter(query: string) {
-        //search pokemon by pokemon name in searched pokemon
-        const index2 = findSearchPokemonsByName(query)
-        if (index2 !== -1) {
-            return true
-        }
-        //check query is existing
-        const index = filterParmsRef.current.findIndex(parmaData => {
-
-            return parmaData.query === query
-        })
-        return index !== -1
-    }
-    function getSizebyParam(query: string) {
-        const filterParams = filterParmsRef.current
-        const index = filterParams?.findIndex(param => param.query === query) as number
-        if (index !== -1) {
-            return filterParams[index]?.size ?? 0
-        }
-        return 0
-    }
-    function getSelectedCountByType(type: string): number {
-        const filterParams = filterParmsRef.current
-        return filterParams?.filter(param => param.type === type).length
-
-    }
     const searchPokemonByFilter = async (type: string, query: string) => {
         if (query.trim().length === 0) return null;
         try {
@@ -67,13 +79,13 @@ const useSearchPokemon = (search: string) => {
             const data = await res.json();
             const pokemons = data.pokemon || data.pokemon_species;
             const filterParams = filterParmsRef.current
-            const index = filterParams?.findIndex(param => param.type === type && param.query === query) as number
-            
+            const index = filterParams?.findIndex((param: IFilterParams) => param.type === type && param.query === query) as number
+
             filterParams[index].size = pokemons.length
             filterParmsRef.current = filterParams
             localStorage.filterParams = JSON.stringify(filterParams)
 
-            
+
             const nameList = [] as string[];
             for (let index = 0; index < pokemons.length; index++) {
                 const pokemon = pokemons[index].pokemon || pokemons[index]
@@ -119,14 +131,15 @@ const useSearchPokemon = (search: string) => {
                 if (param.type === "pokemon") {
                     searchPokemon(param.query)
                         .then(data => {
-                            const index2 = findSearchPokemonsByName(data?.name as string)
+                            const index2 = getSearchPokemonsIndexByName(data?.name as string)
                             if (index2 === -1) {
-                                searchPokemons?.push(data as ResponseAPI)
+                                searchPokemons?.unshift(data as ResponseAPI)
                                 const set = new Set([
                                     ...(searchPokemons as ResponseAPI[])
                                 ]);
                                 const finalList = [...set]?.filter(n => n)
                                 localStorage.searchedPokemons = JSON.stringify(finalList)
+                                console.log("searchPokemons",searchPokemons)
                                 setSearchPokemons(finalList)
 
                             }
@@ -164,18 +177,6 @@ const useSearchPokemon = (search: string) => {
         }
 
     }
-    function findSearchPokemonsByName(name: string) {
-        
-        if (localStorage.searchedPokemons) {
-            const localSearchedPokemons = JSON.parse(localStorage.searchedPokemons ?? "")
-            return localSearchedPokemons?.findIndex((pokemon: { name: string; }) => pokemon.name === name) as number
-            
-        } else {
-            return searchPokemons?.findIndex(pokemon => pokemon.name === name) as number
-            
-        }
-
-    }
     async function toggleFilterParams(type: string, query: string) {
         const param = {
             type,
@@ -183,9 +184,10 @@ const useSearchPokemon = (search: string) => {
         }
 
         if (type === "name" || type === "pokemon") {
-            // setPokemon({} as ResponseAPI)
-            const index2 = findSearchPokemonsByName(query)
+            //toggle searched pokemon tag
+            const index2 = getSearchPokemonsIndexByName(query)
             if (index2 !== -1) {
+                //remove existing searched pokemon
                 searchPokemons?.splice(index2, 1)
                 const set = new Set([
                     ...(searchPokemons as ResponseAPI[])
@@ -202,17 +204,20 @@ const useSearchPokemon = (search: string) => {
 
             }
         } else {
-            const index = filterParmsRef.current.findIndex(parmaData => parmaData.type === type && parmaData.query === query)
+            const index = filterParmsRef.current.findIndex((parmaData: { type: string; query: string; }) => parmaData.type === type && parmaData.query === query)
             const filterParams = filterParmsRef.current
             let isAdd = true
             if (index !== -1) {
+                //remove existing params
                 filterParams.splice(index, 1);
                 isAdd = false
             } else {
+                // add new params
                 filterParams.push(param);
                 setIsLoading(true)
             }
             try {
+                //update the final pokemon name list and params list
                 await getFinalListFromFilterParams([...filterParams])
                 localStorage.filterParams = JSON.stringify(filterParams)
                 filterParmsRef.current = [...filterParams]
@@ -220,8 +225,9 @@ const useSearchPokemon = (search: string) => {
             } catch (error) {
                 console.log(error)
             } finally {
+                //if user input params is not valid
                 if (!isAdd) {
-
+                    //still remove the params from the filter params and update it
                     localStorage.filterParams = JSON.stringify(filterParams)
                     filterParmsRef.current = [...filterParams]
                     setFilterParams([...filterParams])
@@ -229,36 +235,42 @@ const useSearchPokemon = (search: string) => {
                 setIsLoading(false)
             }
         }
-
-
-
-
     }
-    useEffect(() => {
-        const controller = new AbortController();
-        try {
-            if (search && search !== " ") {
-                setIsLoading(true)
-                searchPokemon(search, controller.signal)
-                    .then(data => {
-                        const index2 = findSearchPokemonsByName(data?.name as string)
-                        if (index2 === -1) {
-                            searchPokemons?.push(data as ResponseAPI)
-                            const set = new Set([
-                                ...(searchPokemons as ResponseAPI[])
-                            ]);
-                            const finalList = [...set]?.filter(n => n)
-                            localStorage.searchedPokemons = JSON.stringify(finalList)
-                            setSearchPokemons(finalList)
-                        }
-                    })
-            }
-        } finally {
-            setIsLoading(false);
+    function isSelectedFilter(query: string) {
+        //search pokemon by pokemon name in searched pokemon
+        const index2 = getSearchPokemonsIndexByName(query)
+        if (index2 !== -1) {
+            return true
         }
+        //check query is existing
+        const index = filterParmsRef.current.findIndex((parmaData: IFilterParams) => {
 
-        return () => controller.abort();
-    }, [search])
+            return parmaData.query === query
+        })
+        return index !== -1
+    }
+    function getSizebyParam(query: string) {
+
+        const filterParams = filterParmsRef.current
+        const index = filterParams?.findIndex((param: IFilterParams) => param.query === query) as number
+        if (index !== -1) {
+            return filterParams[index]?.size ?? 0
+        }
+        return 0
+    }
+    function getSelectedCountByType(type: string): number {
+        const filterParams = filterParmsRef.current
+        return filterParams?.filter((param: IFilterParams) => param.type === type).length
+    }
+    function getSearchPokemonsIndexByName(name: string) {
+        if (localStorage.searchedPokemons) {
+            const localSearchedPokemons = JSON.parse(localStorage.searchedPokemons ?? "")
+            return localSearchedPokemons?.findIndex((pokemon: { name: string; }) => pokemon.name === name) as number
+        } else {
+            return searchPokemons?.findIndex((pokemon: { name: string; }) => pokemon.name === name) as number
+        }
+    }
+    
     async function loadSearchedPokemons() {
         if (localStorage.searchedPokemons && searchPokemons?.length === 0) {
             setIsLoading(true)
@@ -269,8 +281,8 @@ const useSearchPokemon = (search: string) => {
                 const pokemon = localSearchedPokemons[index];
                 const query = pokemon.name
                 const data = await searchPokemon(query)
-                const index2 = searchPokemons?.findIndex(pokemon => pokemon.name === query) as number
-                if (index2 === -1) { searchPokemons?.push(data as ResponseAPI) }
+                const index2 = searchPokemons?.findIndex((pokemon: { name: string; }) => pokemon.name === query) as number
+                if (index2 === -1) { searchPokemons?.unshift(data as ResponseAPI) }
             }
             const set = new Set([
                 ...(searchPokemons as ResponseAPI[])
@@ -292,6 +304,8 @@ const useSearchPokemon = (search: string) => {
 
         }
     }
+
+
     function clearFilterParams() {
         localStorage.filterParams = JSON.stringify([])
         localStorage.searchedPokemons = JSON.stringify([])
@@ -300,19 +314,6 @@ const useSearchPokemon = (search: string) => {
         filterParmsRef.current = ([])
         setFilteredPokemon([])
     }
-    useEffect(() => {
-        loadFilterParams()
-        window.addEventListener('storage', () => {
-            loadFilterParams()
-        })
-        return () => window.removeEventListener("storage", loadFilterParams);
-    }, [])
-    useEffect(() => {
-        loadSearchedPokemons()
-        return () => {
-            setSearchPokemons([])
-        }
-    }, [])
     return {
         cachePokemon,
         searchPokemons,

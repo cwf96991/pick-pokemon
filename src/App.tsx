@@ -26,7 +26,6 @@ function App() {
         <div className="md:w-1/3 w-full ">
           <UserPanel
             isDarkMode={isDarkMode}
-            toggleDarkModeHandler={toggleDarkModeHandler}
           />
         </div>
         <div className="bg-gray-100 dark:bg-gray-800 md:w-1/2 w-full flex flex-col flex-1">

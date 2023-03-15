@@ -12,17 +12,18 @@ import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import DeleteModal from "../deleteModal";
 import useDrawer from "../../hook/useDrawer";
+import { IRecord } from "../../interface/record";
 const UserPanel = (props: {
   isDarkMode: boolean;
-  toggleDarkModeHandler: Function;
 }) => {
   const { isOpen, toggleDrawer } = useDrawer();
   const { isDarkMode } = props;
   const { isMobile } = useIsMobile();
   const { userRecord, deleteUserRecord } = useUserRecord();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const recordRef = useRef<any>();
-
+  const recordRef = useRef<IRecord>();
+  function updateRecordRef(record: IRecord) {
+    recordRef.current = record
+  }
   return (
     <>
       <div className=" md:hidden mx-4 mt-4 flex justify-between">
@@ -37,7 +38,7 @@ const UserPanel = (props: {
         />
 
         <UserRecordDesktopSection
-          recordRef={recordRef}
+          updateRecordRef={updateRecordRef}
           userRecord={userRecord}
           isMobile={isMobile}
           deleteUserRecord={deleteUserRecord}
@@ -56,12 +57,12 @@ const UserPanel = (props: {
               userRecord={userRecord}
               isMobile={isMobile}
               deleteUserRecord={deleteUserRecord}
-              recordRef={recordRef}
+              updateRecordRef={updateRecordRef}
             />
           </div>
           <DeleteModal
             onConfirm={() => {
-              deleteUserRecord(recordRef.current);
+              deleteUserRecord(recordRef.current as IRecord);
             }}
           />
         </Drawer>

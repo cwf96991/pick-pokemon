@@ -4,10 +4,10 @@ import Chip from "../../chip";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { toast } from "react-toastify";
 import useDarkMode from "../../../hook/useDarkMode";
-import { getAvatarFromPokemon } from "../utils/pokemon";
+import { getAvatarFromPokemon } from "../../pokemonForm/utils/pokemon";
 import useIsMobile from "../../../hook/useIsMobile";
 
-const Review = (props: { setPage: Function }) => {
+const Review = (props: { setPage: React.Dispatch<React.SetStateAction<number>> }) => {
   const { setPage } = props;
   const { isDarkMode } = useDarkMode();
   const { isMobile } = useIsMobile();
@@ -15,7 +15,7 @@ const Review = (props: { setPage: Function }) => {
   const { firstName, lastName, phoneNumber, address, clearFormData } =
     useFormData();
   const onSubmit = () => {
-    const userRecord: { [id: string]: any } = {};
+    const userRecord: { [id: string]: unknown } = {};
     userRecord.firstName = firstName;
     userRecord.lastName = lastName;
     userRecord.phoneNumber = phoneNumber;
@@ -49,7 +49,7 @@ const Review = (props: { setPage: Function }) => {
           onClick={() => {
             setPage(1);
           }}
-          className="text-white btn btn-outline btn-sm dark:border-gray-700 border-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="btn btn-outline btn-sm dark:border-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-white border-gray-400"
         >
           <ModeEditIcon sx={{ color: isDarkMode ? "#fff" : "#000" }} />
         </div>
@@ -110,7 +110,7 @@ const Review = (props: { setPage: Function }) => {
           onClick={() => {
             setPage(2);
           }}
-          className="text-white btn btn-outline btn-sm dark:border-gray-700 border-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="btn btn-outline btn-sm dark:border-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-white border-gray-400"
         >
           <ModeEditIcon sx={{ color: isDarkMode ? "#fff" : "#000" }} />
         </div>

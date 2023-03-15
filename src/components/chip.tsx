@@ -3,8 +3,8 @@ import { pokemonBallImg } from "../constant";
 const Chip = (props: {
   name: string;
   imgUrl: string;
-  onDelete?: Function;
-  onClick?: Function;
+  onDelete?: ()=>void;
+  onClick?: () => void;
 }) => {
   const { name, imgUrl, onDelete, onClick } = props;
   const isClickable = onClick !== undefined;

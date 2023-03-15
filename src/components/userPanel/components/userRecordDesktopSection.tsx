@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Paginate from "../../paginate";
 import { IRecord } from "../../../interface/record";
 
 import UserRecord from "./userRecord";
+import { useState } from "react";
 function Items(props: {
-  recordRef: any;
-  currentItems: any[];
-  deleteUserRecord: Function;
+  updateRecordRef: (record: IRecord) => void;
+  currentItems: IRecord[];
+  deleteUserRecord: (record: IRecord) => void;
 }) {
-  const { currentItems, deleteUserRecord, recordRef } = props;
+  const { currentItems, deleteUserRecord, updateRecordRef } = props;
   return (
     <div className="md:min-h-[380px]">
       {currentItems &&
-        currentItems.map((record: any, index: number) => {
+        currentItems.map((record: IRecord, index: number) => {
           return (
             <UserRecord
               key={index}
               record={record}
-              recordRef={recordRef}
+              updateRecordRef={updateRecordRef}
               onDelete={deleteUserRecord}
             />
           );
@@ -26,26 +26,31 @@ function Items(props: {
   );
 }
 const UserRecordList = (props: {
-  recordRef: any;
+  updateRecordRef: (record: IRecord) => void;
   userRecord: IRecord[];
   isMobile: boolean;
-  deleteUserRecord: Function;
+  deleteUserRecord: (record: IRecord) => void;
 }) => {
-  const { userRecord, isMobile, deleteUserRecord, recordRef } = props;
+  const { userRecord, isMobile, deleteUserRecord, updateRecordRef } = props;
+  const [page, setPage] = useState<number>(0)
   return (
     <>
       <div className=" w-full h-full flex flex-col overflow-y-auto">
         {userRecord.length > 0 && (
           <Paginate
+            currentPage={page}
+            setCurrentPage={(page) => {
+              setPage(page)
+            }}
             pageClassName="  "
             itemsInPage={isMobile ? 4 : 8}
             items={userRecord}
-            itemsListView={(records: any) => {
+            itemsListView={(records: unknown) => {
               return (
                 <Items
                   deleteUserRecord={deleteUserRecord}
-                  currentItems={records}
-                  recordRef={recordRef}
+                  currentItems={records as IRecord[]}
+                  updateRecordRef={updateRecordRef}
                 />
               );
             }}
@@ -66,18 +71,18 @@ const TitleText = (props: { userRecord: IRecord[] }) => {
   );
 };
 const UserRecordDesktopSection = (props: {
-  recordRef: any;
+  updateRecordRef: (record: IRecord) => void;
   userRecord: IRecord[];
   isMobile: boolean;
-  deleteUserRecord: Function;
+  deleteUserRecord: (record: IRecord) => void;
 }) => {
-  const { userRecord, isMobile, deleteUserRecord, recordRef } = props;
+  const { userRecord, isMobile, deleteUserRecord, updateRecordRef } = props;
 
   return (
     <div className="hidden md:block w-full">
       <TitleText userRecord={userRecord} />
       <UserRecordList
-        recordRef={recordRef}
+        updateRecordRef={updateRecordRef}
         userRecord={userRecord}
         isMobile={isMobile}
         deleteUserRecord={deleteUserRecord}

@@ -1,5 +1,5 @@
 import PushPinIcon from "@mui/icons-material/PushPin";
-const Tag = (props: { type: string; query: string; onDelete?: Function }) => {
+const Tag = (props: { type: string; query: string; onDelete?: () => void }) => {
   const { onDelete, type, query } = props;
   const isClickable = onDelete !== undefined;
   const typeConverter = () => {

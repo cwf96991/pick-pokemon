@@ -1,7 +1,7 @@
 import HistoryIcon from "@mui/icons-material/History";
 
 const UserRecordButton = (props: {
-  toggleDrawer: Function;
+  toggleDrawer: () => void;
   isDarkMode: boolean;
 }) => {
   const { toggleDrawer, isDarkMode } = props;

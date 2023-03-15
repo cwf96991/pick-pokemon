@@ -1,27 +1,36 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 
 const Paginate = (props: {
   items: unknown[];
-  itemsListView: Function;
+  itemsListView: (items: unknown[]) => JSX.Element;
   pageClassName?: string;
   itemsInPage?: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void
+  pageClickHandler?: () => void
 }) => {
-  const { items, itemsListView, itemsInPage, pageClassName } = props;
+  const { items, itemsListView, itemsInPage, pageClassName, currentPage, setCurrentPage, pageClickHandler } = props;
   const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = itemsInPage??4
+  const itemsPerPage = itemsInPage ?? 4
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = items.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(items.length / itemsPerPage);
   const handlePageClick = (event: { selected: number }) => {
     // scroll to clear all row
-    document?.getElementById('pokemon0')?.scrollIntoView({
-      behavior: 'smooth'
-    });
+    if (pageClickHandler)
+      pageClickHandler()
+
     const newOffset = (event.selected * itemsPerPage) % items.length;
+    setCurrentPage(event.selected)
     setItemOffset(newOffset);
   };
+  useEffect(() => {
+    if (items.length > 0) {
+      const newOffset = ((currentPage ?? 0) * itemsPerPage) % items.length;
+      setItemOffset(newOffset ?? 0);
+    }
+  }, [])
 
   return (
     <>
@@ -30,6 +39,7 @@ const Paginate = (props: {
         {items.length > itemsPerPage && (
           <ReactPaginate
             breakLabel="..."
+            forcePage={(currentPage ?? 0)}
             nextLabel={
               <>
                 <span className="sr-only">Next</span>

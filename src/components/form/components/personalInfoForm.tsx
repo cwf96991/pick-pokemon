@@ -5,7 +5,7 @@ import useFormData from "../../../hook/useFormData";
 import { IUser } from "../../../interface/user";
 import { AddUserSchema, PHONE_NUMBER_DIDITS, isNumeric } from "../utils/form"
 
-const PersonalInfoForm = (props: { setPage: Function }) => {
+const PersonalInfoForm = (props: { setPage: React.Dispatch<React.SetStateAction<number>> }) => {
     const { setPage } = props;
     const {
         register,

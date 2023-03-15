@@ -1,6 +1,6 @@
 import { IPokemon } from "../../../interface/pokemon";
 
-function getListBox(pokemons: any[], abilities: any[]) {
+function getListBox(pokemons: IPokemon[], abilities: IPokemon[]) {
   return [
     {
       id: "name",
