@@ -1,38 +1,13 @@
 import { pokemonBallImg } from "../constant";
 
-const Chip = (props: {
-  name: string;
-  imgUrl: string;
-  onDelete?: ()=>void;
-  onClick?: () => void;
-}) => {
-  const { name, imgUrl, onDelete, onClick } = props;
-  const isClickable = onClick !== undefined;
-  return (
-    <div
-      onClick={() => {
-        if (onClick) onClick();
-      }}
-      data-te-chip-init
-      data-te-ripple-init
-      className={`${
-        isClickable ? " cursor-pointer active:bg-[#cacfd1]" : ""
-      } dark:hover:bg-gray-700 group mt-0 mb-2 md:mb-2 md:mt-0 [word-wrap: break-word] capitalize my-[5px] mr-4 flex h-[32px] items-center justify-between rounded-[16px] bg-[#eceff1] border-red-700 hover:border-red-900 text-gray-600  dark:text-gray-300  hover:text-black border py-0 px-[12px] text-[13px] font-normal leading-loose shadow-none transition-[opacity] duration-300 ease-linear hover:!shadow-none  dark:bg-gray-900  dark:hover:text-white`}
-    >
-      <img
-        className="my-0 mr-[8px] pb-1 h-[inherit] w-[inherit] rounded-[100%]"
-        src={imgUrl}
-        alt={name}
-        onError={({ currentTarget }) => {
-          currentTarget.onerror = null; // prevents looping
-          currentTarget.src = pokemonBallImg;
-        }}
-      />
-      {name}
-      {onDelete && (
+const Chip = ({ name, imgUrl, onDelete, onClick }: {name: string; imgUrl: string; onDelete?: ()=>void; onClick?: () => void;}) => {
+  const isClickable = Boolean(onClick);
+  const DeleteBtn=()=>{
+    return <>
+    {onDelete && (
         <span
           onClick={() => {
-            if (onDelete) onDelete();
+            onDelete?.();
           }}
           data-te-chip-close
           className={`${
@@ -54,6 +29,30 @@ const Chip = (props: {
           </svg>
         </span>
       )}
+    </>
+  }
+  return (
+    <div
+      onClick={() => {
+        onClick?.();
+      }}
+      data-te-chip-init
+      data-te-ripple-init
+      className={`${
+        isClickable ? " cursor-pointer active:bg-[#cacfd1]" : ""
+      } dark:hover:bg-gray-700 group mt-0 mb-2 md:mb-2 md:mt-0 [word-wrap: break-word] capitalize my-[5px] mr-4 flex h-[32px] items-center justify-between rounded-[16px] bg-[#eceff1] border-red-700 hover:border-red-900 text-gray-600  dark:text-gray-300  hover:text-black border py-0 px-[12px] text-[13px] font-normal leading-loose shadow-none transition-[opacity] duration-300 ease-linear hover:!shadow-none  dark:bg-gray-900  dark:hover:text-white`}
+    >
+      <img
+        className="my-0 mr-[8px] pb-1 h-[inherit] w-[inherit] rounded-[100%]"
+        src={imgUrl}
+        alt={name}
+        onError={({ currentTarget }) => {
+          currentTarget.onerror = null; // prevents looping
+          currentTarget.src = pokemonBallImg;
+        }}
+      />
+      {name}
+      <DeleteBtn/>
     </div>
   );
 };

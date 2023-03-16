@@ -103,7 +103,7 @@ const Review = (props: { setPage: React.Dispatch<React.SetStateAction<number>> }
           </label>
         </div>
       </form>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-2">
         <div className="dark:text-white text-black">Selected Pokemon</div>
 
         <div

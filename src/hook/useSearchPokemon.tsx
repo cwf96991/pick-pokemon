@@ -7,9 +7,10 @@ const useSearchPokemon = (search: string) => {
     const [cachePokemon, setCachePokemon] = useState<any>({})
     const [filterParams, setFilterParams] = useState<IFilterParams[]>([])
     const filterParmsRef = useRef<IFilterParams[]>([])
-    const [searchPokemons, setSearchPokemons] = useState<ResponseAPI[] | null>([] as ResponseAPI[]);
+    const [searchPokemons, setSearchPokemons] = useState<ResponseAPI[]>([] as ResponseAPI[]);
     const [isLoading, setIsLoading] = useState(false)
     const [filteredPokemon, setFilteredPokemon] = useState<string[]>([])
+    
     useEffect(() => {
         loadFilterParams()
         window.addEventListener('storage', () => {

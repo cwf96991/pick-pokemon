@@ -1,5 +1,7 @@
 import PushPinIcon from "@mui/icons-material/PushPin";
-const Tag = (props: { type: string; query: string; onDelete?: () => void }) => {
+import { memo } from "react";
+// eslint-disable-next-line react/display-name
+const Tag = memo((props: { type: string; query: string; onDelete?: () => void }) => {
   const { onDelete, type, query } = props;
   const isClickable = onDelete !== undefined;
   const typeConverter = () => {
@@ -48,5 +50,5 @@ const Tag = (props: { type: string; query: string; onDelete?: () => void }) => {
       )}
     </div>
   );
-};
+});
 export default Tag;

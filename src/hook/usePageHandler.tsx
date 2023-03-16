@@ -10,22 +10,26 @@ const usePageHandler = () => {
     }
   };
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
+    const urlParams = new URLSearchParams(window.location.search);
+
     //get page params in url (xxxx/?page=urlParams)
 
     const localPage = localStorage.getItem("page") ?? "1";
-    const pageParms = urlParams.get("page") ?? localPage;
-    if (pageParms <= localPage) {
+    const pageParam = urlParams.get("page") ?? localPage;
+    const pageNumber = Number(pageParam);
+
+    if (pageNumber < Number(localPage)) {
       //page params is smaller then local store's page
       //nivagate to the url assigned page
-      setPage(Number(pageParms));
+      setPage(pageNumber);
+      localStorage.setItem("page", pageNumber.toString());
     } else {
+      setPage(Number(localPage));
+
       //go to previous page that store in local store
       //and change the url to correct one
-      const finalUrl = window.location.origin + "/?page=" + localPage;
-
-      window.location.href = finalUrl;
+      const finalUrl = `${window.location.origin}/?page=${localPage}`;
+      window.history.replaceState(null, "", finalUrl);
     }
   }, []);
   return { page, setPage, pageClickHandler };

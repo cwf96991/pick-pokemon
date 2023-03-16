@@ -38,7 +38,7 @@ const PersonalInfoForm = (props: { setPage: React.Dispatch<React.SetStateAction<
                 <div></div>
             ) : (
                 <form
-                    className="md:max-w-4xl md:px-12 md:py-10 md:border px-2 py-2 m-auto mt-10 mb-4 rounded-lg"
+                    className=" md:px-12 md:py-10 md:border px-2 py-2 m-auto mt-10 mb-4 rounded-lg"
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <div className="md:grid-cols-2 md:gap-6 grid">

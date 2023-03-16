@@ -6,7 +6,7 @@ import UserPanel from "./components/userPanel/index";
 import usePageHandler from "./hook/usePageHandler";
 import Form from "./components/form/index";
 function App() {
-  const { isDarkMode, toggleDarkModeHandler } = useDarkMode();
+  const { isDarkMode,  } = useDarkMode();
   const { page, setPage, pageClickHandler } = usePageHandler();
 
   const MainPanel = () => {
