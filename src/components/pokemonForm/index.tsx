@@ -18,6 +18,7 @@ const PokemonForm = (props: { setPage: React.Dispatch<React.SetStateAction<numbe
       isSelectedFilter,
       getSizebyParam,
       getSelectedCountByType,
+      getTotalPokemonFromFilter,
     } = useSearchPokemon(searchQuery);
   
     const pokemonsNames = searchPokemons?.map(
@@ -101,7 +102,7 @@ const PokemonForm = (props: { setPage: React.Dispatch<React.SetStateAction<numbe
               turnstoneRef.current.query("");
             }
             await toggleFilterParams(type, query);
-          }} isLoading={isLoading} filterParamsWithoutSizeLength={filterParamsWithoutSizeLength} finalFilterParams={finalFilterParams} />
+          }} isLoading={isLoading||getTotalPokemonFromFilter()>filteredPokemon.length} filterParamsWithoutSizeLength={filterParamsWithoutSizeLength} finalFilterParams={finalFilterParams} />
           <ClearAllAndPokemonNumber
             finalFilterParams={finalFilterParams} clearFilterParams={clearFilterParams} finalPokemons={finalPokemons}
   

@@ -4,7 +4,7 @@ import { LoadingWidget } from "./loading";
 
 const FilterTag = (props: { isLoading: boolean, filterParamsWithoutSizeLength: number, finalFilterParams: IFilterParams[], onDelete: (type: string, query: string) => void }) => {
     const { isLoading, filterParamsWithoutSizeLength, finalFilterParams, onDelete } = props
-    const isLoadingData = isLoading || filterParamsWithoutSizeLength !== 0;
+    const isLoadingData = isLoading || filterParamsWithoutSizeLength !== 0 ;
     return (
       <div className=" flex flex-wrap md:max-h-[50px] md:overflow-y-auto md:max-w-[800px]">
         {finalFilterParams.map(
